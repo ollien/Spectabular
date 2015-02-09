@@ -5,17 +5,17 @@ function getWindows(windowList){
 			var li = document.createElement("li");
 			var ul = document.createElement("ul");
 			li.classList.add("window");
-			li.textContent="Window "+(i+1);
-			li.appendChild(ul);
-			windowList.appendChild(li);
 			chrome.tabs.query({'windowId':currentWindow.id},function(tabs){
+				li.textContent="Window "+(i+1)+" - "+tabs.length+" tabs";
+				li.appendChild(ul);
+				windowList.appendChild(li);
 				tabs.forEach(function(currentTab){
 					var li = document.createElement("li");
 					li.classList.add("tab");
 					li.textContent=currentTab.title;
 					ul.appendChild(li);
 				});
-			})
+			});
 		});
 	});
 
