@@ -11,8 +11,9 @@ function getWindows(windowList){
 				windowList.appendChild(li);
 				tabs.forEach(function(currentTab){
 					var li = document.createElement("li");
-					var closeButton = document.createElement("span");
-					closeButton.textContent = "x";
+					var closeButton = document.createElement("i");
+					closeButton.classList.add("fa");
+					closeButton.classList.add("fa-remove");
 					closeButton.classList.add("close");
 					closeButton.classList.add("noselect");
 					closeButton.onclick = function(event){
