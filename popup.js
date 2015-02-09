@@ -4,15 +4,26 @@ function getWindows(windowList){
 		windows.forEach(function(currentWindow,i){
 			var li = document.createElement("li");
 			var ul = document.createElement("ul");
-			li.classList.add("window");
 			chrome.tabs.query({'windowId':currentWindow.id},function(tabs){
+				li.classList.add("window");
 				li.textContent="Window "+(i+1)+" - "+tabs.length+" tabs";
 				li.appendChild(ul);
 				windowList.appendChild(li);
 				tabs.forEach(function(currentTab){
 					var li = document.createElement("li");
+					var closeButton = document.createElement("span");
+					closeButton.textContent = "x";
+					closeButton.classList.add("close");
+					closeButton.classList.add("noselect");
+					closeButton.onclick = function(event){
+						event.preventDefault();
+						event.stopPropagation();
+						chrome.tabs.remove(currentTab.id);
+						ul.removeChild(li);
+					}
 					li.classList.add("tab");
 					li.textContent=currentTab.title;
+					li.appendChild(closeButton);
 					ul.appendChild(li);
 				});
 			});

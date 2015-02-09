@@ -3,3 +3,16 @@ body{
 	width:400px; 
 	overflow:scroll;
 }
+.noselect {
+	-webkit-touch-callout: none;
+	user-select: none;
+	cursor: pointer;
+}
+span.close{
+	padding-left: 10px;
+	color:#000;
+}
+span.close:hover{
+	padding-left: 10px;
+	color:#E53935
+}
