@@ -22,5 +22,11 @@ function getWindows(windowList){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-	getWindows(document.getElementById("windows"));
+	var mainList = document.getElementById("windows");
+	var body = document.getElementsByTagName("body")[0];
+	getWindows(mainList);
+	if (mainList.clientHeight<600){
+		body.style.height = mainList.clientHeight;
+	}
+	
 });
