@@ -1,3 +1,26 @@
+function getWindows(windowList){
+	chrome.windows.getAll(function(windows){
+		//loop through every window and append it ot the list
+		windows.forEach(function(currentWindow,i){
+			var li = document.createElement("li");
+			var ul = document.createElement("ul");
+			li.classList.add("window");
+			li.textContent="Window "+(i+1);
+			li.appendChild(ul);
+			windowList.appendChild(li);
+			chrome.tabs.query({'windowId':currentWindow.id},function(tabs){
+				tabs.forEach(function(currentTab){
+					var li = document.createElement("li");
+					li.classList.add("tab");
+					li.textContent=currentTab.title;
+					ul.appendChild(li);
+				});
+			})
+		});
+	});
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-	document.getElementById("text").textContent = "I'm just an excentsion. Sitting here in Google Chrome";
+	getWindows(document.getElementById("windows"));
 });
