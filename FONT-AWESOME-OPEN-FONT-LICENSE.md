@@ -1,5 +1,6 @@
 This Font Software is Copyright (c) 2015, Dave Gandy http://fortawesome.github.io/.
 All Rights Reserved.
+
 Copyright (c) 2015, Dave Gandy http://fortawesome.github.io/.
 
 Font Awesome is a Reserved Font Name for this Font Software.
