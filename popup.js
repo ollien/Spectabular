@@ -7,6 +7,7 @@ function getWindows(windowList,callback){
 				var ul = document.createElement("ul");
 				li.classList.add("window");
 				li.classList.add("noselect");
+				ul.classList.add("tabs");
 				li.textContent="Window "+(i+1)+" - "+tabs.length+ (tabs.length>1 ? " tabs":" tab");
 				tabs.forEach(function(currentTab){
 					ul.appendChild(currentTab);
@@ -26,10 +27,13 @@ function getTabs(windowId,callback){
 		tabs.forEach(function(currentTab){
 			var li = document.createElement("li");
 			var closeButton = document.createElement("i");
+			var favicon = document.createElement("img");
+			var textSpan = document.createElement("span");
 			closeButton.classList.add("fa");
 			closeButton.classList.add("fa-remove");
 			closeButton.classList.add("close");
 			closeButton.classList.add("noselect");
+			textSpan.classList.add("tabName")
 			closeButton.onclick = function(event){
 				event.preventDefault();
 				event.stopPropagation();
@@ -47,8 +51,10 @@ function getTabs(windowId,callback){
 				});
 			}
 			li.classList.add("tab");
-			li.textContent=currentTab.title;
-			li.appendChild(closeButton);
+			li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')"
+			textSpan.textContent=currentTab.title;
+			li.appendChild(textSpan);
+			textSpan.appendChild(closeButton);
 			windowTabs.push(li);
 		});
 		callback(windowTabs);

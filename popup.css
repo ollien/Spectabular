@@ -11,10 +11,32 @@ body{
 ul#windows{
 	max-height:600px;
 }
-.tab{
-	background-color:#FFFFFF;
+ul.tabs{
+	padding-left: .875em;
 }
-.tab:hover{
+li.tab{
+	list-style: none;
+	background-color:#FFFFFF;
+	background-repeat: no-repeat;
+	background-position-y: 3px;
+	background-size: 16px 16px;
+	padding-left: 18px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-left: 0px;
+}
+li.tab > span.tabName{
+	width:400px;
+	display:inline-block;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+	padding-right: 10px;
+	max-width: 100%;
+	box-sizing: border-box;
+	position: relative;
+}
+li.tab:hover{
 	background-color:#B3B3B3;
 }
 .noselect {
@@ -23,10 +45,12 @@ ul#windows{
 	cursor: pointer;
 }
 i.close{
-	padding-left: 5px;
+	position:absolute;
+	top:3px;
+	right:5px;
+	font-size: 12px;
 	color:#000;
 }
 i.close:hover{
-	padding-left: 5px;
 	color:#E53935
 }
