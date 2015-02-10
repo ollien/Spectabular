@@ -34,7 +34,7 @@ function getTabs(windowId,callback){
 				event.preventDefault();
 				event.stopPropagation();
 				chrome.tabs.remove(currentTab.id);
-				ul.removeChild(li);
+				li.parentNode.removeChild(li);
 			}
 			//Switches to the tab clicked
 			li.onclick = function(event){
