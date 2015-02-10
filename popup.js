@@ -80,10 +80,39 @@ function getTabs(windowId,callback){
 		callback(windowTabs);
 	});
 }
+function createSearchableWindows(callback){
+	var result = [];
+	chrome.windows.getAll(function(windows){
+		var tabs = [];
+		windows.forEach(function(currentWindow,i)){
+			getTabs(currentWindow.id,function(windowTabs){
+				tabs = windowsTabs;
+				result.push(result);
+				if (i==windows.length-1){
+					callback(result);
+				}
+			});
+		}
+	});
+}
+function search(query,windows,callback){
+	windows = JSON.parse(JSON.stringify(windows)); //Clone the JSON object so we don't modify the origional
+	windows.forEach(function(tabs,i){
+		matchedTabs = [];
+		tabs.forEach(function(currentTab){
+			if (currentTab.textContent.indexOf(query)>-1)
+				matchedTabs.push(currentTab);
+		});
+		windows[i] = matchedTabs;
+	});
+	callback(windows);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 	var mainList = document.getElementById("windows");
 	var body = document.getElementsByTagName("body")[0];
 	var html = document.getElementsByTagName("html")[0];
+	var filterInput = document.getElementById("search");
 	var totalHeight = 0;
 	getWindows(mainList,function(tabs){
 		totalHeight+=tabs.clientHeight;
@@ -94,4 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		html.style.height = height;
 		body.style.height = height;
 	});
+	filterInput.oninput = search(filterInput.value, createSearchableWindows(function(result){
+		
+	}));
 });

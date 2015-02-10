@@ -70,3 +70,6 @@ i.pin:hover{
 i.pin.pinned:hover{
 	color:#000;
 }
+input#search{
+	width:100%;
+}
