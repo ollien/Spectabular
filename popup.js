@@ -6,6 +6,7 @@ function getWindows(windowList,callback){
 				var li = document.createElement("li");
 				var ul = document.createElement("ul");
 				li.classList.add("window");
+				li.classList.add("noselect");
 				li.textContent="Window "+(i+1)+" - "+tabs.length+ (tabs.length>1 ? " tabs":" tab");
 				tabs.forEach(function(currentTab){
 					ul.appendChild(currentTab);
@@ -35,6 +36,16 @@ function getTabs(windowId,callback){
 				chrome.tabs.remove(currentTab.id);
 				ul.removeChild(li);
 			}
+			//Switches to the tab clicked
+			li.onclick = function(event){
+				event.stopPropagation();
+				chrome.windows.getCurrent(function(resultWindow){
+					if (currentTab.id!=resultWindow.id){
+						chrome.windows.update(currentTab.windowId,{'focused':true});
+					}
+					chrome.tabs.update(currentTab.id,{'highlighted':true,'active':true});
+				});
+			}
 			li.classList.add("tab");
 			li.textContent=currentTab.title;
 			li.appendChild(closeButton);
@@ -43,7 +54,6 @@ function getTabs(windowId,callback){
 		callback(windowTabs);
 	});
 }
-
 document.addEventListener('DOMContentLoaded', function() {
 	var mainList = document.getElementById("windows");
 	var body = document.getElementsByTagName("body")[0];
@@ -58,6 +68,4 @@ document.addEventListener('DOMContentLoaded', function() {
 		html.style.height = height;
 		body.style.height = height;
 	});
-	
-	
 });

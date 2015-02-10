@@ -11,6 +11,12 @@ body{
 ul#windows{
 	max-height:600px;
 }
+.tab{
+	background-color:#FFFFFF;
+}
+.tab:hover{
+	background-color:#B3B3B3;
+}
 .noselect {
 	-webkit-touch-callout: none;
 	user-select: none;
