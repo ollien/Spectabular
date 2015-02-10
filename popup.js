@@ -27,7 +27,6 @@ function getTabs(windowId,callback){
 		tabs.forEach(function(currentTab){
 			var li = document.createElement("li");
 			var closeButton = document.createElement("i");
-			var favicon = document.createElement("img");
 			var textSpan = document.createElement("span");
 			closeButton.classList.add("fa");
 			closeButton.classList.add("fa-remove");
