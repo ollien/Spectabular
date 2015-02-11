@@ -10,9 +10,7 @@ function getWindows(windowList,tabList,callback){
 		chrome.windows.getAll(function(windows){
 			//loop through every window and append it ot the list
 			windows.forEach(function(currentWindow,i){
-				var li = document.createElement("li");
-				var ul = document.createElement("ul");
-				getTabs(currentWindow.id,i,{'ul':ul,'li':li},function(){
+				getTabs(currentWindow.id,i,function(li,ul){
 					li.appendChild(ul);
 					windowList.appendChild(li);
 					callback(li);
@@ -22,9 +20,7 @@ function getWindows(windowList,tabList,callback){
 	}
 	else{
 		tabList.forEach(function(tabs,i){
-			var li = document.createElement("li");
-			var ul = document.createElement("ul");
-			setupTabs(tabs,i,li,ul,function(){
+			setupTabs(tabs,i,function(li,ul){
 				li.appendChild(ul);
 				windowList.appendChild(li);
 				callback(li);
@@ -34,25 +30,31 @@ function getWindows(windowList,tabList,callback){
 
 }
 //Gets all tabs in a window and sets them up
-function getTabs(windowId,windowIndex,uiObjects,callback){
+function getTabs(windowId,windowIndex,callback){
 	var windowTabs = []
-	if (typeof windowIndex=='function' || typeof uiObjects=='function'){
-		throw "uiObjects must be defined with li and ul";
-	}
-	else{
-		var ul = uiObjects.ul;
-		var li = uiObjects.li;
-	}
 	chrome.tabs.query({'windowId':windowId},function(tabs){
 		tabs.forEach(function(currentTab){
 			setupTab(currentTab,function(li){
 				windowTabs.push(li);	
 			});
 		});
-		setupTabs(windowTabs,windowIndex,li,ul,callback);
+		setupTabs(windowTabs,windowIndex,callback);
 	});
 }
 
+//Sets up all tabs to be in their window elements
+function setupTabs(tabs,windowIndex,callback){
+	var li = document.createElement("li");
+	var ul = document.createElement("ul");
+	li.classList.add("window");
+	li.classList.add("noselect");
+	ul.classList.add("tabs");
+	li.textContent="Window "+(windowIndex+1)+" - "+tabs.length+ (tabs.length>1 ? " tabs":" tab");
+	tabs.forEach(function(currentTab){
+		ul.appendChild(currentTab);
+	});
+	callback(li,ul);
+}
 
 function setupTab(currentTab,callback){
 	var li = document.createElement("li");
@@ -114,17 +116,6 @@ function setupTab(currentTab,callback){
 	callback(li);
 }
 
-//Sets up all tabs to be in their window elements
-function setupTabs(tabs,windowIndex,li,ul,callback){
-	li.classList.add("window");
-	li.classList.add("noselect");
-	ul.classList.add("tabs");
-	li.textContent="Window "+(windowIndex+1)+" - "+tabs.length+ (tabs.length>1 ? " tabs":" tab");
-	tabs.forEach(function(currentTab){
-		ul.appendChild(currentTab);
-	});
-	callback(li,ul);
-}
 
 function removeChildren(element){
 	Array.prototype.slice.call(element.childNodes).forEach(function(child){
@@ -137,9 +128,7 @@ function createSearchableWindows(callback){
 	chrome.windows.getAll(function(windows){
 		var tabs = [];
 		windows.forEach(function(currentWindow,i){
-			var li = document.createElement("li");
-			var ul = document.createElement("ul");
-			getTabs(currentWindow.id,i,{'ul':ul,'li':li},function(li,ul){
+			getTabs(currentWindow.id,function(li,ul){
 				tabs = Array.prototype.slice.call(ul.childNodes);
 				result.push(tabs);
 				if (i==windows.length-1){
