@@ -58,7 +58,7 @@ function setupTabs(tabs,windowIndex,callback){
 	seperator.textContent=" - "
 	tabCount.classList.add("tabCount");
 	tabCount.textContent = tabs.length.toString();
-	tabCount.classList.add("tabWord");
+	tabWord.classList.add("tabWord");
 	tabWord.textContent = (tabs.length>1 ? " tabs":" tab");
 	li.appendChild(windowName);
 	li.appendChild(seperator)
@@ -103,6 +103,7 @@ function setupTab(currentTab,callback){
 		event.preventDefault();
 		event.stopPropagation();
 		chrome.tabs.remove(currentTab.id);
+		decrementTabCount(li);
 		li.parentNode.removeChild(li);
 	}
 	pinButton.onclick = function(event){
@@ -134,6 +135,19 @@ function setupTab(currentTab,callback){
 	callback(li);
 }
 
+function decrementTabCount(tabLi){
+	var ul = tabLi.parentNode;
+	if (ul.tagName.toLowerCase()!='ul' || !ul.classList.contains("tabs")){
+		throw "Not a tab li";
+	}
+	var li = ul.parentNode;
+	if (li.tagName.toLowerCase()!='li' || !li.classList.contains("window")){
+		throw "Not a tab li";
+	}	
+	var tabCount = li.querySelector('span.tabCount');
+	var num = parseInt(tabCount.textContent)-1;
+	tabCount.textContent=num.toString();
+}
 
 function removeChildren(element){
 	Array.prototype.slice.call(element.childNodes).forEach(function(child){
