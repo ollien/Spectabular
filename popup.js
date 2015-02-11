@@ -46,10 +46,24 @@ function getTabs(windowId,windowIndex,callback){
 function setupTabs(tabs,windowIndex,callback){
 	var li = document.createElement("li");
 	var ul = document.createElement("ul");
+	var windowName = document.createElement("span");
+	var seperator = document.createElement("span");
+	var tabCount = document.createElement("span");
+	var tabWord = document.createElement("span");
 	li.classList.add("window");
 	li.classList.add("noselect");
 	ul.classList.add("tabs");
-	li.textContent="Window "+(windowIndex+1)+" - "+tabs.length+ (tabs.length>1 ? " tabs":" tab");
+	windowName.classList.add("windowIndex");
+	windowName.textContent = "Window "+(windowIndex+1);
+	seperator.textContent=" - "
+	tabCount.classList.add("tabCount");
+	tabCount.textContent = tabs.length.toString();
+	tabCount.classList.add("tabWord");
+	tabWord.textContent = (tabs.length>1 ? " tabs":" tab");
+	li.appendChild(windowName);
+	li.appendChild(seperator)
+	li.appendChild(tabCount);
+	li.appendChild(tabWord);
 	tabs.forEach(function(currentTab){
 		ul.appendChild(currentTab);
 	});
@@ -65,14 +79,18 @@ function setupTab(currentTab,callback){
 	closeButton.classList.add("fa-remove");
 	closeButton.classList.add("close");
 	closeButton.classList.add("noselect");
+	closeButton.classList.add("pointer");
 	pinButton.classList.add("fa");
 	pinButton.classList.add("fa-thumb-tack");
 	pinButton.classList.add("pin");
 	pinButton.classList.add("noselect");
+	closeButton.classList.add("pointer");
 	if (currentTab.pinned){
 		pinButton.classList.add("pinned");
 	}
 	li.classList.add("tab");
+	li.classList.add("noselect");
+	li.classList.add("pointer");
 	//Setup favicon
 	li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')";
 	textSpan.classList.add("tabName");

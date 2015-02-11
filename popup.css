@@ -41,7 +41,10 @@ li.tab:hover{
 }
 .noselect {
 	-webkit-touch-callout: none;
+	-webkit-user-select: none;
 	user-select: none;
+}
+.pointer{
 	cursor: pointer;
 }
 i.close{
