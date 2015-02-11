@@ -45,62 +45,74 @@ function getTabs(windowId,windowIndex,uiObjects,callback){
 	}
 	chrome.tabs.query({'windowId':windowId},function(tabs){
 		tabs.forEach(function(currentTab){
-			var li = document.createElement("li");
-			var textSpan = document.createElement("span");
-			var closeButton = document.createElement("i");
-			var pinButton = document.createElement("i");
-			closeButton.classList.add("fa");
-			closeButton.classList.add("fa-remove");
-			closeButton.classList.add("close");
-			closeButton.classList.add("noselect");
-			pinButton.classList.add("fa");
-			pinButton.classList.add("fa-thumb-tack");
-			pinButton.classList.add("pin");
-			pinButton.classList.add("noselect");
-			if (currentTab.pinned){
-				pinButton.classList.add("pinned");
-			}
-			textSpan.classList.add("tabName")
-			closeButton.onclick = function(event){
-				event.preventDefault();
-				event.stopPropagation();
-				chrome.tabs.remove(currentTab.id);
-				li.parentNode.removeChild(li);
-			}
-			pinButton.onclick = function(event){
-				event.preventDefault();
-				event.stopPropagation();
-				if (currentTab.pinned || pinButton.classList.contains('pinned')){
-					pinButton.classList.remove("pinned");
-					chrome.tabs.update(currentTab.id, {'pinned':false});
-				}
-				else{
-					pinButton.classList.add("pinned");
-					chrome.tabs.update(currentTab.id, {'pinned':true});
-				}
-			}
-			//Switches to the tab clicked
-			li.onclick = function(event){
-				event.stopPropagation();
-				chrome.windows.getCurrent(function(resultWindow){
-					if (currentTab.id!=resultWindow.id){
-						chrome.windows.update(currentTab.windowId,{'focused':true});
-					}
-					chrome.tabs.update(currentTab.id,{'highlighted':true,'active':true});
-				});
-			}
-			li.classList.add("tab");
-			li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')"
-			textSpan.textContent=currentTab.title;
-			li.appendChild(textSpan);
-			textSpan.appendChild(pinButton);
-			textSpan.appendChild(closeButton);
-			windowTabs.push(li);
+			setupTab(currentTab,function(li){
+				windowTabs.push(li);	
+			});
 		});
 		setupTabs(windowTabs,windowIndex,li,ul,callback);
 	});
 }
-//Sets up all tabs to work as UI elements.
+
+
+function setupTab(currentTab,callback){
+	var li = document.createElement("li");
+	var textSpan = document.createElement("span");
+	var closeButton = document.createElement("i");
+	var pinButton = document.createElement("i");
+	closeButton.classList.add("fa");
+	closeButton.classList.add("fa-remove");
+	closeButton.classList.add("close");
+	closeButton.classList.add("noselect");
+	pinButton.classList.add("fa");
+	pinButton.classList.add("fa-thumb-tack");
+	pinButton.classList.add("pin");
+	pinButton.classList.add("noselect");
+	if (currentTab.pinned){
+		pinButton.classList.add("pinned");
+	}
+	li.classList.add("tab");
+	//Setup favicon
+	li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')";
+	textSpan.classList.add("tabName");
+	textSpan.textContent=currentTab.title;
+	
+	
+	closeButton.onclick = function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		chrome.tabs.remove(currentTab.id);
+		li.parentNode.removeChild(li);
+	}
+	pinButton.onclick = function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		if (currentTab.pinned || pinButton.classList.contains('pinned')){
+			pinButton.classList.remove("pinned");
+			chrome.tabs.update(currentTab.id, {'pinned':false});
+		}
+		else{
+			pinButton.classList.add("pinned");
+			chrome.tabs.update(currentTab.id, {'pinned':true});
+		}
+	}
+	//Switches to the tab clicked
+	li.onclick = function(event){
+		event.stopPropagation();
+		chrome.windows.getCurrent(function(resultWindow){
+			if (currentTab.id!=resultWindow.id){
+				chrome.windows.update(currentTab.windowId,{'focused':true});
+			}
+			chrome.tabs.update(currentTab.id,{'highlighted':true,'active':true});
+		});
+	}
+	
+	li.appendChild(textSpan);
+	textSpan.appendChild(pinButton);
+	textSpan.appendChild(closeButton);
+	callback(li);
+}
+
+//Sets up all tabs to be in their window elements
 function setupTabs(tabs,windowIndex,li,ul,callback){
 	li.classList.add("window");
 	li.classList.add("noselect");
