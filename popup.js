@@ -75,7 +75,9 @@ function setupTab(currentTab,callback){
 	li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')";
 	textSpan.classList.add("tabName");
 	textSpan.textContent=currentTab.title;
-	
+	if (textSpan.textContent==""){
+		textSpan.textContent="Untitled";	
+	}
 	
 	closeButton.onclick = function(event){
 		event.preventDefault();
