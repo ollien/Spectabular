@@ -128,7 +128,7 @@ function createSearchableWindows(callback){
 	chrome.windows.getAll(function(windows){
 		var tabs = [];
 		windows.forEach(function(currentWindow,i){
-			getTabs(currentWindow.id,function(li,ul){
+			getTabs(currentWindow.id,i,function(li,ul){
 				tabs = Array.prototype.slice.call(ul.childNodes);
 				result.push(tabs);
 				if (i==windows.length-1){
