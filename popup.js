@@ -13,7 +13,7 @@ function getWindows(windowList,tabList,callback){
 				getTabs(currentWindow.id,i,function(li,ul){
 					li.appendChild(ul);
 					windowList.appendChild(li);
-					callback(li);
+  					callback(li);
 				});
 			});
 		});
@@ -47,20 +47,24 @@ function setupTabs(tabs,windowIndex,callback){
 	var li = document.createElement("li");
 	var ul = document.createElement("ul");
 	var windowName = document.createElement("span");
+	var windowNum = document.createElement("span");
 	var seperator = document.createElement("span");
 	var tabCount = document.createElement("span");
 	var tabWord = document.createElement("span");
 	li.classList.add("window");
 	li.classList.add("noselect");
 	ul.classList.add("tabs");
-	windowName.classList.add("windowIndex");
-	windowName.textContent = "Window "+(windowIndex+1);
+	windowName.classList.add("windowName");
+	windowName.textContent = "Window ";
+	windowNum.classList.add("windowIndex");
+	windowNum.textContent = (windowIndex+1).toString();
 	seperator.textContent=" - "
 	tabCount.classList.add("tabCount");
 	tabCount.textContent = tabs.length.toString();
 	tabWord.classList.add("tabWord");
 	tabWord.textContent = (tabs.length>1 ? " tabs":" tab");
 	li.appendChild(windowName);
+	li.appendChild(windowNum);
 	li.appendChild(seperator)
 	li.appendChild(tabCount);
 	li.appendChild(tabWord);
@@ -152,9 +156,30 @@ function decrementTabCount(tabLi){
 		if (windows.tagName.toLowerCase()!='ul' || windows.id!="windows"){
 			throw "Not a tab li";
 		}
+		var index = li.querySelector("span.windowIndex");
+		if (index==null){
+			throw "Not a tab li";
+		}
+		index = parseInt(index.textContent);
+		decrementWindowCount(li.parentNode,index);
 		windows.removeChild(li);
 	}
-	
+}
+//Decremeent every window with a lower number than it
+function decrementWindowCount(windowList,minWindow){
+	Array.prototype.slice.call(windowList.childNodes).forEach(function(child){
+		if (child.tagName.toLowerCase()!='li' || !child.classList.contains("window")){
+			return;
+		}
+		Array.prototype.slice.call(child.childNodes).forEach(function(child2){	
+			if (child2.tagName.toLowerCase()!='span' || !child2.classList.contains("windowIndex")){
+				return;
+			}
+			if (parseInt(child2.textContent)>minWindow){
+				child2.textContent=(parseInt(child2.textContent)-1).toString();
+			}
+		});
+	});
 }
 
 function removeChildren(element){
