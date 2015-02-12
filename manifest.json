@@ -17,6 +17,16 @@
 		},
 		"default_popup":"popup.html"
 	},
+	"commands":{
+		"_execute_browser_action":{
+			"suggested_key":{
+				"windows":"Ctrl+Shift+E",
+				"mac":"Command+Shift+E",
+				"chromeos":"Ctrl+Shift+E",
+				"linux":"Ctrl+Shift+E"
+			}
+		}
+	},
 	"permissions":["tabs","storage","unlimitedStorage"]
 	
 		
