@@ -151,11 +151,11 @@ function decrementTabCount(tabLi){
 	var tabCount = li.querySelector('span.tabCount');
 	var num = parseInt(tabCount.textContent)-1;
 	tabCount.textContent=num.toString();
+	var windows = li.parentNode;
+	if (windows.tagName.toLowerCase()!='ul' || windows.id!="windows"){
+		throw "Not a tab li";
+	}
 	if (num===0){
-		var windows = li.parentNode;
-		if (windows.tagName.toLowerCase()!='ul' || windows.id!="windows"){
-			throw "Not a tab li";
-		}
 		var index = li.querySelector("span.windowIndex");
 		if (index==null){
 			throw "Not a tab li";
@@ -164,6 +164,10 @@ function decrementTabCount(tabLi){
 		decrementWindowCount(li.parentNode,index);
 		windows.removeChild(li);
 	}
+	totalHeight = 0;
+	Array.prototype.slice.call(windows.childNodes).forEach(function(child){
+		setHeights(child);
+	});
 }
 //Decremeent every window with a lower number than it
 function decrementWindowCount(windowList,minWindow){
@@ -185,7 +189,7 @@ function decrementWindowCount(windowList,minWindow){
 function removeChildren(element){
 	Array.prototype.slice.call(element.childNodes).forEach(function(child){
 		element.removeChild(child);
-	})
+	});
 }
 
 function createSearchableWindows(callback){
