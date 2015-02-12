@@ -233,6 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	filterInput.oninput = function(){
 		createSearchableWindows(function(result){
 			search(filterInput.value,result,function(windows){
+				totalHeight = 0;
 				getWindows(mainList, windows, setHeights);
 			});
 		});
