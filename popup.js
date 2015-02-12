@@ -147,6 +147,14 @@ function decrementTabCount(tabLi){
 	var tabCount = li.querySelector('span.tabCount');
 	var num = parseInt(tabCount.textContent)-1;
 	tabCount.textContent=num.toString();
+	if (num===0){
+		var windows = li.parentNode;
+		if (windows.tagName.toLowerCase()!='ul' || windows.id!="windows"){
+			throw "Not a tab li";
+		}
+		windows.removeChild(li);
+	}
+	
 }
 
 function removeChildren(element){
