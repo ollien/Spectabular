@@ -173,6 +173,9 @@ function search(query,callback){
 		callback(windows);
 	});
 }
+function createTabList(mainList,windowKeyIndex){
+	return mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes;
+}
 function setHeights(){
 	var windows = document.getElementById("windows");
 	var body = document.querySelector("body");
@@ -197,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 	window.addEventListener('keydown', function(event){
+		var tabList = createTabList(mainList,windowKeyIndex);
 		if (event.keyCode===40){
 			event.preventDefault();
 			event.stopPropagation();
@@ -204,14 +208,16 @@ document.addEventListener('DOMContentLoaded', function() {
 				filterInput.blur();
 			}
 			else{
-				mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.remove('keyHover');	
+				tabList[tabKeyIndex].classList.remove('keyHover');	
 				tabKeyIndex+=1;
-				if (tabKeyIndex===mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes.length){
+				if (tabKeyIndex===tabList.length){
 					windowKeyIndex+=(windowKeyIndex+1<mainList.querySelectorAll('li.window').length ? 1 : 0);
 					tabKeyIndex = 0;
+					tabList = createTabList(mainList, windowKeyIndex);
 				}
 			}
-			mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.add('keyHover');
+			tabList[tabKeyIndex].classList.add('keyHover');
 		}
+		
 	});
 });
