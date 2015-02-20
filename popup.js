@@ -201,7 +201,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.addEventListener('keydown', function(e){
 		if (document.activeElement===filterInput){
 			filterInput.blur();
-			mainList.querySelector('li.window').querySelector('ul.tabs').childNodes[0].classList.add('keyHover');
 		}
+		else{
+			mainList.querySelector('li.window').querySelector('ul.tabs').childNodes[tabKeyIndex].classList.remove('keyHover');	
+			tabKeyIndex+=1;
+		}
+		mainList.querySelector('li.window').querySelector('ul.tabs').childNodes[tabKeyIndex].classList.add('keyHover');
 	});
 });
