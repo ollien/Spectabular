@@ -190,10 +190,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	var mainList = document.getElementById("windows");
 	var filterInput = document.getElementById("search");
 	getWindows(mainList,setHeights);
-	filterInput.oninput = function(){
+	filterInput.addEventListener('input', function(event){
 		search(filterInput.value,function(windows){
 			removeChildren(mainList);
 			getWindows(mainList,windows,setHeights);
 		});
-	};
+	});
 });
