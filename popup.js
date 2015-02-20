@@ -218,6 +218,19 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			tabList[tabKeyIndex].classList.add('keyHover');
 		}
-		
+		else if (event.keyCode===38){
+			event.preventDefault();
+			event.stopPropagation();
+			if (tabList[tabKeyIndex].classList.contains('keyHover')){
+				tabList[tabKeyIndex].classList.remove('keyHover');	
+				tabKeyIndex-=1;
+				if (tabKeyIndex===-1){
+					windowKeyIndex-=(windowKeyIndex-1>=0 ? 1 : 0);
+					tabList = createTabList(mainList, windowKeyIndex);
+					tabKeyIndex = tabList.length-1;
+				}
+				tabList[tabKeyIndex].classList.add('keyHover');
+			}
+		}
 	});
 });
