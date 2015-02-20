@@ -196,20 +196,22 @@ document.addEventListener('DOMContentLoaded', function() {
 			getWindows(mainList,windows,setHeights);
 		});
 	});
-	window.addEventListener('keydown', function(e){
-		event.preventDefault();
-		event.stopPropagation();
-		if (document.activeElement===filterInput){
-			filterInput.blur();
-		}
-		else{
-			mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.remove('keyHover');	
-			tabKeyIndex+=1;
-			if (tabKeyIndex===mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes.length){
-				windowKeyIndex+=(windowKeyIndex+1<mainList.querySelectorAll('li.window').length ? 1 : 0);
-				tabKeyIndex = 0;
+	window.addEventListener('keydown', function(event){
+		if (event.keyCode===40){
+			event.preventDefault();
+			event.stopPropagation();
+			if (document.activeElement===filterInput){
+				filterInput.blur();
 			}
+			else{
+				mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.remove('keyHover');	
+				tabKeyIndex+=1;
+				if (tabKeyIndex===mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes.length){
+					windowKeyIndex+=(windowKeyIndex+1<mainList.querySelectorAll('li.window').length ? 1 : 0);
+					tabKeyIndex = 0;
+				}
+			}
+			mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.add('keyHover');
 		}
-		mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.add('keyHover');
 	});
 });
