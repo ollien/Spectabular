@@ -197,6 +197,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 	window.addEventListener('keydown', function(e){
+		event.preventDefault();
+		event.stopPropagation();
 		if (document.activeElement===filterInput){
 			filterInput.blur();
 		}
