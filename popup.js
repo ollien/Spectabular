@@ -243,5 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			}
 		}
+		else if (event.keyCode===13){
+			tabList[tabKeyIndex].click();
+		}
 	});
 });
