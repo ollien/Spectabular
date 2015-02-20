@@ -36,7 +36,7 @@ li.tab > span.tabName{
 	box-sizing: border-box;
 	position: relative;
 }
-li.tab:hover{
+li.tab:hover,li.tab.keyHover{
 	background-color:#B3B3B3;
 }
 .noselect {

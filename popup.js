@@ -189,11 +189,19 @@ function setHeights(){
 document.addEventListener('DOMContentLoaded', function() {
 	var mainList = document.getElementById("windows");
 	var filterInput = document.getElementById("search");
+	var windowKeyIndex = 0;
+	var tabKeyIndex = 0;
 	getWindows(mainList,setHeights);
 	filterInput.addEventListener('input', function(event){
 		search(filterInput.value,function(windows){
 			removeChildren(mainList);
 			getWindows(mainList,windows,setHeights);
 		});
+	});
+	window.addEventListener('keydown', function(e){
+		if (document.activeElement===filterInput){
+			filterInput.blur();
+			mainList.querySelector('li.window').querySelector('ul.tabs').childNodes[0].classList.add('keyHover');
+		}
 	});
 });
