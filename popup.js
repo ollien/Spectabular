@@ -203,9 +203,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			filterInput.blur();
 		}
 		else{
-			mainList.querySelector('li.window').querySelector('ul.tabs').childNodes[tabKeyIndex].classList.remove('keyHover');	
+			mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.remove('keyHover');	
 			tabKeyIndex+=1;
+			console.log(	mainList.querySelector('li.window').querySelectorAll('ul.tabs'))
+			if (tabKeyIndex===mainList.querySelector('li.window').querySelector('ul.tabs').childNodes.length){
+				windowKeyIndex+=1; //TODO: Check to make sure if it is the last window.
+				tabKeyIndex = 0;
+			}
 		}
-		mainList.querySelector('li.window').querySelector('ul.tabs').childNodes[tabKeyIndex].classList.add('keyHover');
+		mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.add('keyHover');
 	});
 });
