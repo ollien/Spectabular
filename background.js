@@ -117,8 +117,8 @@ chrome.tabs.onMoved.addListener(function(tabId,objects){
 	var startPos = objects.fromIndex;
 	var endPos = objects.toIndex;
 	var tab = findTabById(windowId, tabId);
-	tabs.window.tabs.splice(startPos,1);
-	tabs.window.tabs.splice(endPos,0,tab.tab);
+	tab.window.tabs.splice(startPos,1);
+	tab.window.tabs.splice(endPos,0,tab.tab);
 	saveWindows();
 });
 
