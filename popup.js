@@ -280,5 +280,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			tabList[tabKeyIndex].classList.add('keyHover');
 		}
+		else if(event.keyCode===80){
+			tabList[tabKeyIndex].querySelector('i.pin').click();
+		}
 	});
 });
