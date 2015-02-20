@@ -201,6 +201,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	window.addEventListener('keydown', function(event){
 		var tabList = createTabList(mainList,windowKeyIndex);
+		
+		//If down is pressed, traverse through tabs.
 		if (event.keyCode===40){
 			event.preventDefault();
 			event.stopPropagation();
@@ -210,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			else{
 				tabList[tabKeyIndex].classList.remove('keyHover');	
 				tabKeyIndex+=1;
+				//If we're going below the last tab, change windows;
 				if (tabKeyIndex===tabList.length){
 					windowKeyIndex+=(windowKeyIndex+1<mainList.querySelectorAll('li.window').length ? 1 : 0);
 					tabKeyIndex = 0;
@@ -218,12 +221,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			tabList[tabKeyIndex].classList.add('keyHover');
 		}
+		//If up is pressed, traverse through tabs
 		else if (event.keyCode===38){
 			event.preventDefault();
 			event.stopPropagation();
 			if (tabList[tabKeyIndex].classList.contains('keyHover')){
 				tabList[tabKeyIndex].classList.remove('keyHover');	
 				tabKeyIndex-=1;
+				//If we're going above the first tab, change windows.
 				if (tabKeyIndex===-1){
 					windowKeyIndex-=1;
 					if (windowKeyIndex==-1){
@@ -243,6 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			}
 		}
+		//If enter is pressed, switch to the tab.
 		else if (event.keyCode===13){
 			tabList[tabKeyIndex].click();
 		}
