@@ -225,11 +225,22 @@ document.addEventListener('DOMContentLoaded', function() {
 				tabList[tabKeyIndex].classList.remove('keyHover');	
 				tabKeyIndex-=1;
 				if (tabKeyIndex===-1){
-					windowKeyIndex-=(windowKeyIndex-1>=0 ? 1 : 0);
-					tabList = createTabList(mainList, windowKeyIndex);
-					tabKeyIndex = tabList.length-1;
+					windowKeyIndex-=1;
+					if (windowKeyIndex==-1){
+						windowKeyIndex=0;
+						tabKeyIndex = 0;
+						tabList[tabKeyIndex].classList.remove('keyHover');
+						filterInput.focus();
+					}
+					else{
+						tabList = createTabList(mainList, windowKeyIndex);
+						tabKeyIndex = tabList.length-1;
+						tabList[tabKeyIndex].classList.add('keyHover');
+					}
 				}
-				tabList[tabKeyIndex].classList.add('keyHover');
+				else{
+					tabList[tabKeyIndex].classList.add('keyHover');
+				}
 			}
 		}
 	});
