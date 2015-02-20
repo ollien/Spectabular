@@ -177,8 +177,8 @@ function search(query,callback){
 }
 function setHeights(){
 	var windows = document.getElementById("windows");
-	var body = document.getElementsByTagName("body")[0];
-	var html = document.getElementsByTagName("html")[0];
+	var body = document.querySelector("body");
+	var html = document.querySelector("html");
 	var height = windows.offsetHeight+"px";
 	if (windows.offsetHeight>=600){
 		height = "600px";
