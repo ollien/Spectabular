@@ -60,7 +60,6 @@ function setupWindowElement(currentWindow,callback){
 	li.appendChild(seperator)
 	li.appendChild(tabCount);
 	li.appendChild(tabWord);
-	console.log(currentWindow.tabs);
 	li.appendChild(ul);
 	callback(li);
 }
@@ -166,7 +165,6 @@ function removeChildren(element){
 function search(query,callback){
 	getStorage(function(windows){
 		windows = windows.windows;
-		console.log(windows);
 		windows.forEach(function(currentWindow){
 			currentWindow.tabs = currentWindow.tabs.filter(function(currentTab){
 				return currentTab.title.toLowerCase().indexOf(query)>-1;
@@ -205,9 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		else{
 			mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes[tabKeyIndex].classList.remove('keyHover');	
 			tabKeyIndex+=1;
-			console.log(	mainList.querySelector('li.window').querySelectorAll('ul.tabs'))
-			if (tabKeyIndex===mainList.querySelector('li.window').querySelector('ul.tabs').childNodes.length){
-				windowKeyIndex+=1; //TODO: Check to make sure if it is the last window.
+			if (tabKeyIndex===mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes.length){
+				windowKeyIndex+=(windowKeyIndex+1<mainList.querySelectorAll('li.window').length ? 1 : 0);
 				tabKeyIndex = 0;
 			}
 		}
