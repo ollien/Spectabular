@@ -101,7 +101,12 @@ function setupTabs(tabs,callback){
 			event.stopPropagation();
 			chrome.tabs.remove(currentTab.id);
 			decrementTabCount(li);
-			li.parentNode.removeChild(li);
+			if (li.parentNode.childNodes.length===0){
+				li.parentNode.parentNode.removeChild(li.parentNode);
+			}
+			else{
+				li.parentNode.removeChild(li);
+			}
 			setHeights();
 		}
 		pinButton.onclick = function(event){
@@ -229,9 +234,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				tabList[tabKeyIndex].classList.remove('keyHover');	
 				tabKeyIndex-=1;
 				//If we're going above the first tab, change windows.
-				if (tabKeyIndex===-1){
+				if (tabKeyIndex<0){
 					windowKeyIndex-=1;
-					if (windowKeyIndex==-1){
+					if (windowKeyIndex<0){
 						windowKeyIndex=0;
 						tabKeyIndex = 0;
 						tabList[tabKeyIndex].classList.remove('keyHover');
@@ -251,6 +256,29 @@ document.addEventListener('DOMContentLoaded', function() {
 		//If enter is pressed, switch to the tab.
 		else if (event.keyCode===13){
 			tabList[tabKeyIndex].click();
+		}
+		else if (event.keyCode===67){
+			tabList[tabKeyIndex].querySelector('i.close').click();
+			//Check to make sure we're not leaving the bounds of the list
+			if (tabKeyIndex-1>0){
+				tabKeyIndex-=1;
+			}
+			//If we're closing a window with only one tab left, move to the previous list.
+			if (tabList.length===0){
+				//Remove the list from the popup
+				//If we're at the front of the list, we move to the window below it.
+				if (windowKeyIndex===0){
+					tabList = createTabList(mainList, windowKeyIndex);
+					tabKeyIndex=0;
+				}
+				//Otherwise, we move up one.
+				if (windowKeyIndex>0){
+					windowKeyIndex-=1;
+					tabList = createTabList(mainList, windowKeyIndex);
+					tabKeyIndex=tabList.length-1;
+				}	
+			}
+			tabList[tabKeyIndex].classList.add('keyHover');
 		}
 	});
 });
