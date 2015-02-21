@@ -84,6 +84,7 @@ function setupTabs(tabs,callback){
 		closeButton.classList.add("pointer");
 		if (currentTab.pinned){
 			pinButton.classList.add("pinned");
+			pinnedTabs.push(li);
 		}
 		li.classList.add("tab");
 		li.classList.add("noselect");
