@@ -1,6 +1,6 @@
 var totalHeight = 0; //Total height of the body of the popup
-var unmovedPins = [];
-var pinnedTabs = [];
+var unmovedPins = []; //Stores pinned tabs that haven't been within the popup
+var pinnedTabs = []; //Stores pinned tabs that have been moved within the popup
 //Gets windows from storage
 function getStorage(callback){
 	chrome.storage.local.get("windows",callback);
@@ -207,17 +207,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			getWindows(mainList,windows,setHeights);
 		});
 	});
+	
 	chrome.tabs.onMoved.addListener(function(tabId,object){
 		var startPos = object.fromIndex;
 		var endPos = object.toIndex;
 		var pinnedTab = unmovedPins.filter(function(tab){
 			return parseInt(tab.getAttribute('tabId'))===tabId;
 		});
+		
 		if (pinnedTab.length===0){
 			pinnedTab = pinnedTabs.filter(function(tab){
 				return parseInt(tab.getAttribute('tabId'))===tabId;
 			});
 		}
+		
 		if (pinnedTab.length===1){
 			pinnedTab = pinnedTab[0];
 			var ul = pinnedTab.parentNode; 
@@ -236,11 +239,16 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 			pinnedTabs.push(pinnedTab);
 			unmovedPins.splice(pinnedPos,1);
+			if (pinnedTab.classList.contains("keyHover")){
+				tabKeyIndex = endPos;
+			}
 		}
 		else{
+			debugger;
 			console.log(pinnedTab);
 		}
 	});
+	
 	window.addEventListener('keydown', function(event){
 		var tabList = createTabList(mainList,windowKeyIndex);
 		//If down is pressed, traverse through tabs.
@@ -293,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		else if (event.keyCode===13){
 			tabList[tabKeyIndex].click();
 		}
+
 		else if (event.keyCode===67){
 			tabList[tabKeyIndex].querySelector('i.close').click();
 			//Check to make sure we're not leaving the bounds of the list
@@ -316,6 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			tabList[tabKeyIndex].classList.add('keyHover');
 		}
+		
 		else if(event.keyCode===80){
 			tabList[tabKeyIndex].querySelector('i.pin').click();
 		}
