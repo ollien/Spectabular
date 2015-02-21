@@ -249,6 +249,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		});
 	});
+	//Workaround to prevent letters from triggering events.
+	filterInput.addEventListener('keydown', function(event){
+		if (event.keyCode!=40 && event.keyCode!=38 && event.keyCode!=13){
+			event.stopPropagation();
+		}
+	});
 	
 	chrome.tabs.onMoved.addListener(function(tabId,object){
 		if (!mainList.classList.contains('searching')){
