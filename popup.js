@@ -48,7 +48,7 @@ function setupWindowElement(currentWindow,callback){
 	li.classList.add("window");
 	li.classList.add("noselect");
 	ul.classList.add("tabs");
-	ul.setAttribute("windowId", currentWindow.id);
+	li.setAttribute("windowId", currentWindow.id);
 	windowName.classList.add("windowName");
 	windowName.textContent = currentWindow.name;
 	seperator.textContent=" - "
