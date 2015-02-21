@@ -1,5 +1,6 @@
 var totalHeight = 0; //Total height of the body of the popup
-
+var unmovedPins = [];
+var pinnedTabs = [];
 //Gets windows from storage
 function getStorage(callback){
 	chrome.storage.local.get("windows",callback);
@@ -23,7 +24,6 @@ function getWindows(windowList,windows,callback){
 }
 
 function setupWindows(windowList,windows,callback){
-	debugger;
 	windows.forEach(function(currentWindow){
 		setupWindowElement(currentWindow, function(windowLi){
 			setupTabs(currentWindow.tabs, function(tabElements){
@@ -117,8 +117,10 @@ function setupTabs(tabs,callback){
 				chrome.tabs.update(currentTab.id, {'pinned':false});
 			}
 			else{
+				console.log("pinning...");
 				pinButton.classList.add("pinned");
 				chrome.tabs.update(currentTab.id, {'pinned':true});
+				unmovedPins.push(li);
 			}
 		}
 		//Switches to the tab clicked
@@ -204,9 +206,42 @@ document.addEventListener('DOMContentLoaded', function() {
 			getWindows(mainList,windows,setHeights);
 		});
 	});
+	chrome.tabs.onMoved.addListener(function(tabId,object){
+		var startPos = object.fromIndex;
+		var endPos = object.toIndex;
+		var pinnedTab = unmovedPins.filter(function(tab){
+			return parseInt(tab.getAttribute('tabId'))===tabId;
+		});
+		if (pinnedTab.length===0){
+			pinnedTab = pinnedTabs.filter(function(tab){
+				return parseInt(tab.getAttribute('tabId'))===tabId;
+			});
+		}
+		if (pinnedTab.length===1){
+			pinnedTab = pinnedTab[0];
+			var ul = pinnedTab.parentNode; 
+			var children = Array.prototype.slice.call(ul.childNodes);
+			var pinnedPos = unmovedPins.indexOf(pinnedTab);
+			if (pinnedPos==-1){
+				pinnedPos = pinnedTabs.indexOf(pinnedTab);
+			}
+			var temp = children[startPos];
+			children.splice(startPos,1);
+			children.splice(endPos, 0,temp);
+			removeChildren(ul);
+			console.log(children);
+			children.forEach(function(child){
+				ul.appendChild(child);
+			});
+			pinnedTabs.push(pinnedTab);
+			unmovedPins.splice(pinnedPos,1);
+		}
+		else{
+			console.log(pinnedTab);
+		}
+	});
 	window.addEventListener('keydown', function(event){
 		var tabList = createTabList(mainList,windowKeyIndex);
-		
 		//If down is pressed, traverse through tabs.
 		if (event.keyCode===40){
 			event.preventDefault();
