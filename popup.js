@@ -173,10 +173,11 @@ function removeChildren(element){
 function search(query,callback){
 	getStorage(function(windows){
 		windows = windows.windows;
-		windows.forEach(function(currentWindow){
+		windows = windows.filter(function(currentWindow){
 			currentWindow.tabs = currentWindow.tabs.filter(function(currentTab){
-				return currentTab.title.toLowerCase().indexOf(query)>-1;
+				return currentTab.title.toLowerCase().indexOf(query)>-1 || new URL(currentTab.url).hostname.indexOf(query)>-1;
 			});
+			return currentWindow.tabs.length>0;
 		});
 		callback(windows);
 	});
