@@ -6,6 +6,22 @@ function getStorage(callback){
 	chrome.storage.local.get("windows",callback);
 }
 
+function changeWindowName(windowId,newName,callback){
+	getStorage(function(data){
+		var windows = data.windows;
+		var changedWindow = windows.filter(function(currentWindow){
+			return currentWindow.id===windowId;
+		});
+		if (changedWindow.length===1){
+			changedWindow[0].name = newName;
+			chrome.storage.local.set({"windows":windows},callback);
+		}
+		else{
+			throw "More than one window has the id "+windowId+". This should never happen."
+		}
+	});
+}
+
 function getWindows(windowList,windows,callback){
 	if (typeof windows==="function"){
 		callback = windows;
@@ -56,6 +72,22 @@ function setupWindowElement(currentWindow,callback){
 	tabCount.textContent = currentWindow.tabs.length.toString();
 	tabWord.classList.add("tabWord");
 	tabWord.textContent = (currentWindow.tabs.length>1 ? " tabs":" tab");
+	windowName.addEventListener('dblclick', function(event){
+		var input = document.createElement('input');
+		input.setAttribute('value',windowName.textContent);
+		input.addEventListener('keydown', function(event){
+			event.stopPropagation();
+			if(event.keyCode===13){
+				event.preventDefault();
+				var windowId = parseInt(input.parentNode.getAttribute('windowId'));
+				windowName.textContent = input.value;
+				input.parentNode.replaceChild(windowName,input);
+				changeWindowName(windowId, input.value);
+			}
+		});
+		windowName.parentNode.replaceChild(input,windowName);
+		input.focus();
+	});
 	li.appendChild(windowName);
 	li.appendChild(seperator)
 	li.appendChild(tabCount);
