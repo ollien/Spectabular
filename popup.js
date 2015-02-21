@@ -113,12 +113,12 @@ function setupTabs(tabs,callback){
 		pinButton.onclick = function(event){
 			event.preventDefault();
 			event.stopPropagation();
-			if (currentTab.pinned || pinButton.classList.contains('pinned')){
+			console.log("click!");
+			if (pinButton.classList.contains('pinned')){
 				pinButton.classList.remove("pinned");
 				chrome.tabs.update(currentTab.id, {'pinned':false});
 			}
 			else{
-				console.log("pinning...");
 				pinButton.classList.add("pinned");
 				chrome.tabs.update(currentTab.id, {'pinned':true});
 				unmovedPins.push(li);
