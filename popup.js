@@ -203,50 +203,61 @@ document.addEventListener('DOMContentLoaded', function() {
 	var tabKeyIndex = 0;
 	getWindows(mainList,setHeights);
 	filterInput.addEventListener('input', function(event){
+		console.log(filterInput.value.length===0);
 		search(filterInput.value,function(windows){
 			removeChildren(mainList);
-			getWindows(mainList,windows,setHeights);
+			getWindows(mainList,windows,function(){
+				if (filterInput.value.length>0){
+					mainList.classList.add('searching');
+				}
+				else{
+					mainList.classList.remove('searching');
+				}
+				setHeights();
+			});
 		});
 	});
 	
 	chrome.tabs.onMoved.addListener(function(tabId,object){
-		var startPos = object.fromIndex;
-		var endPos = object.toIndex;
-		var pinnedTab = unmovedPins.filter(function(tab){
-			return parseInt(tab.getAttribute('tabId'))===tabId;
-		});
-		
-		if (pinnedTab.length===0){
-			pinnedTab = pinnedTabs.filter(function(tab){
+		if (!mainList.classList.contains('searching')){
+			var startPos = object.fromIndex;
+			var endPos = object.toIndex;
+			var pinnedTab = unmovedPins.filter(function(tab){
 				return parseInt(tab.getAttribute('tabId'))===tabId;
 			});
-		}
-		
-		if (pinnedTab.length===1){
-			pinnedTab = pinnedTab[0];
-			var ul = pinnedTab.parentNode; 
-			var children = Array.prototype.slice.call(ul.childNodes);
-			var pinnedPos = unmovedPins.indexOf(pinnedTab);
-			if (pinnedPos==-1){
-				pinnedPos = pinnedTabs.indexOf(pinnedTab);
+			
+			if (pinnedTab.length===0){
+				pinnedTab = pinnedTabs.filter(function(tab){
+					return parseInt(tab.getAttribute('tabId'))===tabId;
+				});
 			}
-			var temp = children[startPos];
-			children.splice(startPos,1);
-			children.splice(endPos, 0,temp);
-			removeChildren(ul);
-			console.log(children);
-			children.forEach(function(child){
-				ul.appendChild(child);
-			});
-			pinnedTabs.push(pinnedTab);
-			unmovedPins.splice(pinnedPos,1);
-			if (pinnedTab.classList.contains("keyHover")){
-				tabKeyIndex = endPos;
+			
+			if (pinnedTab.length===1){
+				pinnedTab = pinnedTab[0];
+				var ul = pinnedTab.parentNode; 
+				var children = Array.prototype.slice.call(ul.childNodes);
+				var pinnedPos = unmovedPins.indexOf(pinnedTab);
+				if (pinnedPos==-1){
+					pinnedPos = pinnedTabs.indexOf(pinnedTab);
+				}
+				var temp = children[startPos];
+				children.splice(startPos,1);
+				children.splice(endPos, 0,temp);
+				removeChildren(ul);
+				console.log(children);
+				children.forEach(function(child){
+					ul.appendChild(child);
+				});
+				pinnedTabs.push(pinnedTab);
+				unmovedPins.splice(pinnedPos,1);
+				if (pinnedTab.classList.contains("keyHover")){
+					tabKeyIndex = endPos;
+				}
 			}
-		}
-		else{
-			debugger;
-			console.log(pinnedTab);
+			else{
+				debugger;
+				console.log(pinnedTab);
+			}
 		}
 	});
 	
