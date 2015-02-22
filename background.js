@@ -7,7 +7,7 @@ function createWindowStorage(callback){
 function populateWindowStorage(callback){
 	chrome.windows.getAll({'populate':true},function(result){
 		result = result.filter(function(currentWindow){
-			return currentWindow.type=="normal";
+			return currentWindow.type==="normal";
 		})
 		result.forEach(function(currentWindow,i){
 			addWindow(currentWindow,i,function(j){
@@ -90,7 +90,8 @@ function findTabInWindow(tabId){
 }
 
 chrome.windows.onCreated.addListener(function(currentWindow){
-	addWindow(currentWindow,saveWindows);
+	if (currentWindow.type==="normal")
+		addWindow(currentWindow,saveWindows);
 });
 
 chrome.windows.onRemoved.addListener(function(windowId){

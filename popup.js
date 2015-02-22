@@ -233,7 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	var filterInput = document.getElementById("search");
 	var windowKeyIndex = 0;
 	var tabKeyIndex = 0;
-	debugger;
 	getWindows(mainList,setHeights);
 	filterInput.addEventListener('input', function(event){
 		search(filterInput.value,function(windows){
