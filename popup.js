@@ -379,7 +379,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		//If enter is pressed, switch to the tab.
 		else if (event.keyCode===13){
-			tabList[tabKeyIndex].click();
+			if (tabKeyIndex>=0){
+				tabList[tabKeyIndex].click();
+			}
 		}
 
 		else if (event.keyCode===67){
