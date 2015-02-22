@@ -58,6 +58,7 @@ function setupWindows(windowList,windows,callback){
 function setupWindowElement(currentWindow,callback){
 	var li = document.createElement("li");
 	var ul = document.createElement("ul");
+	var textContent = document.createElement("span");
 	var windowName = document.createElement("span");
 	var seperator = document.createElement("span");
 	var tabCount = document.createElement("span");
@@ -66,6 +67,7 @@ function setupWindowElement(currentWindow,callback){
 	li.classList.add("noselect");
 	ul.classList.add("tabs");
 	li.setAttribute("windowId", currentWindow.id);
+	textContent.classList.add("textContent");
 	windowName.classList.add("windowName");
 	windowName.textContent = currentWindow.name;
 	seperator.textContent=" - "
@@ -80,7 +82,7 @@ function setupWindowElement(currentWindow,callback){
 			event.stopPropagation();
 			if(event.keyCode===13){
 				event.preventDefault();
-				var windowId = parseInt(input.parentNode.getAttribute('windowId'));
+				var windowId = parseInt(input.parentNode.parentNode.getAttribute('windowId'));
 				windowName.textContent = input.value;
 				input.parentNode.replaceChild(windowName,input);
 				changeWindowName(windowId, input.value);
@@ -90,10 +92,11 @@ function setupWindowElement(currentWindow,callback){
 		input.focus();
 		input.select();
 	});
-	li.appendChild(windowName);
-	li.appendChild(seperator)
-	li.appendChild(tabCount);
-	li.appendChild(tabWord);
+	textContent.appendChild(windowName);
+	textContent.appendChild(seperator)
+	textContent.appendChild(tabCount);
+	textContent.appendChild(tabWord);
+	li.appendChild(textContent);
 	li.appendChild(ul);
 	callback(li);
 }
@@ -130,7 +133,7 @@ function setupTabs(tabs,callback){
 		if (textSpan.textContent==""){
 			textSpan.textContent="Untitled";	
 		}
-		
+
 		closeButton.onclick = function(event){
 			event.preventDefault();
 			event.stopPropagation();
@@ -167,7 +170,7 @@ function setupTabs(tabs,callback){
 				chrome.tabs.update(currentTab.id,{'highlighted':true,'active':true});
 			});
 		}
-		
+
 		li.appendChild(textSpan);
 		textSpan.appendChild(pinButton);
 		textSpan.appendChild(closeButton);
@@ -185,7 +188,7 @@ function decrementTabCount(tabLi){
 	if (li.tagName.toLowerCase()!='li' || !li.classList.contains("window")){
 		throw "Not a tab li";
 	}	
-	var tabCount = li.querySelector('span.tabCount');
+	var tabCount = li.querySelector('span.textContent>span.tabCount');
 	var num = parseInt(tabCount.textContent)-1;
 	tabCount.textContent=num.toString();
 	var windows = li.parentNode;
@@ -236,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var mainList = document.getElementById("windows");
 	var filterInput = document.getElementById("search");
 	var windowKeyIndex = 0;
-	var tabKeyIndex = 0;
+	var tabKeyIndex = -2; //-2 indicates nothing is selected. -1 indicates the window is selected. Anything above that indicates that a tab is selected.
 	getWindows(mainList,setHeights);
 	filterInput.addEventListener('input', function(event){
 		search(filterInput.value,function(windows){
@@ -258,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.stopPropagation();
 		}
 	});
-	
+
 	chrome.tabs.onMoved.addListener(function(tabId,object){
 		if (!mainList.classList.contains('searching')){
 			var startPos = object.fromIndex;
@@ -266,13 +269,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			var pinnedTab = unmovedPins.filter(function(tab){
 				return parseInt(tab.getAttribute('tabId'))===tabId;
 			});
-			
+
 			if (pinnedTab.length===0){
 				pinnedTab = pinnedTabs.filter(function(tab){
 					return parseInt(tab.getAttribute('tabId'))===tabId;
 				});
 			}
-			
+
 			if (pinnedTab.length===1){
 				pinnedTab = pinnedTab[0];
 				var ul = pinnedTab.parentNode; 
@@ -300,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		}
 	});
-	
+
 	window.addEventListener('keydown', function(event){
 		var tabList = createTabList(mainList,windowKeyIndex);
 		//If down is pressed, traverse through tabs.
@@ -310,51 +313,69 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (document.activeElement===filterInput){
 				filterInput.blur();
 			}
-			else{
-				tabList[tabKeyIndex].classList.remove('keyHover');	
+			//If nothing is selected, select the the window itself.
+			if (tabKeyIndex===-2){
+				mainList.querySelectorAll('li.window')[windowKeyIndex].classList.add('keyHover');
 				tabKeyIndex+=1;
-				//If we're going below the last tab, change windows;
-				if (tabKeyIndex===tabList.length){
-					windowKeyIndex+=(windowKeyIndex+1<mainList.querySelectorAll('li.window').length ? 1 : 0);
-					tabKeyIndex = 0;
-					tabList = createTabList(mainList, windowKeyIndex);
-				}
-				if (tabList[tabKeyIndex].getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
-					scrollBy(0, tabList[tabKeyIndex].clientHeight);
+			}
+			//If we're at the last element, switch windows.
+			else if (tabKeyIndex===tabList.length-1){
+				if (windowKeyIndex<mainList.querySelectorAll('li.window').length-1){
+					tabList[tabKeyIndex].classList.remove('keyHover');
+					windowKeyIndex+=1;
+					tabKeyIndex = -1;
+					mainList.querySelectorAll('li.window')[windowKeyIndex].classList.add('keyHover');
 				}
 			}
-			tabList[tabKeyIndex].classList.add('keyHover');
+			//Otherwise, just traverse the tab list.
+			else if (tabKeyIndex<tabList.length-1){
+				mainList.querySelectorAll('li.window')[windowKeyIndex].classList.remove('keyHover');
+				if (tabKeyIndex>=0){
+					tabList[tabKeyIndex].classList.remove('keyHover');
+				}
+				tabKeyIndex+=1;
+				tabList[tabKeyIndex].classList.add('keyHover');
+			}
+			//Scroll if the index passes the bottom border
+			if (tabList[tabKeyIndex].getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
+				scrollBy(0, tabList[tabKeyIndex].clientHeight);
+			}
 		}
 		//If up is pressed, traverse through tabs
 		else if (event.keyCode===38){
 			event.preventDefault();
 			event.stopPropagation();
-			if (tabList[tabKeyIndex].classList.contains('keyHover')){
-				tabList[tabKeyIndex].classList.remove('keyHover');	
-				tabKeyIndex-=1;
-				//If we're going above the first tab, change windows.
-				if (tabKeyIndex<0){
+			//If a window is selected, switch to the next one.
+			if (tabKeyIndex===-1){
+				mainList.querySelectorAll('li.window')[windowKeyIndex].classList.remove('keyHover');
+				if (windowKeyIndex>0){
 					windowKeyIndex-=1;
-					if (windowKeyIndex<0){
-						windowKeyIndex=0;
-						tabKeyIndex = 0;
-						tabList[tabKeyIndex].classList.remove('keyHover');
-						filterInput.focus();
-					}
-					else{
-						tabList = createTabList(mainList, windowKeyIndex);
-						tabKeyIndex = tabList.length-1;
-						tabList[tabKeyIndex].classList.add('keyHover');
-					}
-				}
-				else{
+					tabList = createTabList(mainList, windowKeyIndex);
+					tabKeyIndex = tabList.length-1;
 					tabList[tabKeyIndex].classList.add('keyHover');
 				}
-				if (tabList[tabKeyIndex].getBoundingClientRect().top<=0){
-					scrollBy(0, tabList[tabKeyIndex].clientHeight*-1);
+				//If it's the first window, highlight the search bar
+				else{
+					filterInput.focus();
 				}
-
 			}
+			//If we're at the top of a tab list, highlight the tab itself.
+			else if (tabKeyIndex===0){
+				tabList[tabKeyIndex].classList.remove('keyHover');
+				mainList.querySelectorAll('li.window')[windowKeyIndex].classList.add('keyHover');
+				tabKeyIndex-=1;
+			}
+			//In all other instances, just move up one.
+			else if (tabKeyIndex>0){
+				mainList.querySelectorAll('li.window')[windowKeyIndex].classList.remove('keyHover');
+				tabList[tabKeyIndex].classList.remove('keyHover');
+				tabKeyIndex-=1;
+				tabList[tabKeyIndex].classList.add('keyHover');
+			}
+			//Scroll if the tab index passes the top border.
+			if (tabList[tabKeyIndex].getBoundingClientRect().top<=0){
+				scrollBy(0, tabList[tabKeyIndex].clientHeight*-1);
+			}	
 		}
 		//If enter is pressed, switch to the tab.
 		else if (event.keyCode===13){
@@ -384,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			tabList[tabKeyIndex].classList.add('keyHover');
 		}
-		
+
 		else if(event.keyCode===80){
 			tabList[tabKeyIndex].querySelector('i.pin').click();
 		}

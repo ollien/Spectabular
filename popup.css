@@ -39,6 +39,13 @@ li.tab > span.tabName{
 li.tab:hover,li.tab.keyHover{
 	background-color:#B3B3B3;
 }
+li.window>span.textContent{
+	display:block;
+	width: 100%;
+}
+li.window>span.textContent:hover,li.window.keyHover>span.textContent{
+	background-color:#B3B3B3;
+}
 .noselect {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
