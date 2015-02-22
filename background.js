@@ -6,13 +6,15 @@ function createWindowStorage(callback){
 
 function populateWindowStorage(callback){
 	chrome.windows.getAll({'populate':true},function(result){
+		result = result.filter(function(currentWindow){
+			return currentWindow.type=="normal";
+		})
 		result.forEach(function(currentWindow,i){
-			if (currentWindow.type=="normal")
-				addWindow(currentWindow,i,function(j){
-					if (j==result.length-1){
-						saveWindows();
-					}
-				});
+			addWindow(currentWindow,i,function(j){
+				if (j==result.length-1){
+					saveWindows();
+				}
+			});
 		});
 	});
 }

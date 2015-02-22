@@ -146,7 +146,6 @@ function setupTabs(tabs,callback){
 		pinButton.onclick = function(event){
 			event.preventDefault();
 			event.stopPropagation();
-			console.log("click!");
 			if (pinButton.classList.contains('pinned')){
 				pinButton.classList.remove("pinned");
 				chrome.tabs.update(currentTab.id, {'pinned':false});
@@ -234,9 +233,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	var filterInput = document.getElementById("search");
 	var windowKeyIndex = 0;
 	var tabKeyIndex = 0;
+	debugger;
 	getWindows(mainList,setHeights);
 	filterInput.addEventListener('input', function(event){
-		console.log(filterInput.value.length===0);
 		search(filterInput.value,function(windows){
 			removeChildren(mainList);
 			getWindows(mainList,windows,function(){
@@ -283,7 +282,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				children.splice(startPos,1);
 				children.splice(endPos, 0,temp);
 				removeChildren(ul);
-				console.log(children);
 				children.forEach(function(child){
 					ul.appendChild(child);
 				});
@@ -349,7 +347,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				else{
 					tabList[tabKeyIndex].classList.add('keyHover');
 				}
-				console.log(tabList[tabKeyIndex].getBoundingClientRect().top);
 				if (tabList[tabKeyIndex].getBoundingClientRect().top<=0){
 					scrollBy(0, tabList[tabKeyIndex].clientHeight*-1);
 				}
