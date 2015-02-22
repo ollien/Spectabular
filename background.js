@@ -166,6 +166,14 @@ chrome.tabs.onAttached.addListener(function(tabId,objects){
 	}
 });
 
+chrome.runtime.onMessage.addListener(function(response){
+	if (response.hasOwnProperty('nameChange')){
+		var currentWindow = findWindowById(response.nameChange.windowId);
+		currentWindow.window.name = response.nameChange.name;
+		saveWindows();
+	}
+});
+
 //init
 chrome.storage.local.get('windows',function(result){
 	console.log(result);

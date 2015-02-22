@@ -15,6 +15,7 @@ function changeWindowName(windowId,newName,callback){
 		if (changedWindow.length===1){
 			changedWindow[0].name = newName;
 			chrome.storage.local.set({"windows":windows},callback);
+			chrome.runtime.sendMessage({'nameChange':{'windowId':windowId,'name':newName}});
 		}
 		else{
 			throw "More than one window has the id "+windowId+". This should never happen."
