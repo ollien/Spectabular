@@ -192,6 +192,9 @@ function decrementTabCount(tabLi){
 	if (windows.tagName.toLowerCase()!='ul' || windows.id!="windows"){
 		throw "Not a tab li";
 	}
+	if (num===1){
+		li.querySelector('span.textContent>span.tabWord').textContent = " tab"
+	}
 	if (num===0){
 		windows.removeChild(li);
 	}
