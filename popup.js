@@ -88,6 +88,7 @@ function setupWindowElement(currentWindow,callback){
 		});
 		windowName.parentNode.replaceChild(input,windowName);
 		input.focus();
+		input.select();
 	});
 	li.appendChild(windowName);
 	li.appendChild(seperator)
