@@ -317,6 +317,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					tabKeyIndex = 0;
 					tabList = createTabList(mainList, windowKeyIndex);
 				}
+				if (tabList[tabKeyIndex].getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
+					scrollBy(0, tabList[tabKeyIndex].clientHeight);
+				}
 			}
 			tabList[tabKeyIndex].classList.add('keyHover');
 		}
@@ -345,6 +348,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				else{
 					tabList[tabKeyIndex].classList.add('keyHover');
 				}
+				console.log(tabList[tabKeyIndex].getBoundingClientRect().top);
+				if (tabList[tabKeyIndex].getBoundingClientRect().top<=0){
+					scrollBy(0, tabList[tabKeyIndex].clientHeight*-1);
+				}
+
 			}
 		}
 		//If enter is pressed, switch to the tab.
