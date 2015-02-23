@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 
 	window.addEventListener('keydown', function(event){
-		var windowList = createWindowList(mainList, windowKeyIndex);
+		var windowList = createWindowList(mainList);
 		var tabList = createTabList(mainList,windowKeyIndex);
 		//If down is pressed, traverse through tabs.
 		if (event.keyCode===40){
@@ -473,6 +473,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.preventDefault();
 			scrollTo(0, 0);
 			filterInput.focus();
+		}
+		//Rename a window when R is pressed
+		else if (event.keyCode==82){
+			event.preventDefault();
+			if (tabKeyIndex===-1){
+				var windowList = createWindowList(mainList);
+				windowList[windowKeyIndex].querySelector('span.textContent > span.windowName').dispatchEvent(new MouseEvent('dblclick',{
+					'view':window,
+					'bubbles':true,
+					'cancellable':true
+				}));
+			}
 		}
 	});
 });
