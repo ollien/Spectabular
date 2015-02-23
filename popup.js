@@ -165,10 +165,12 @@ function setupTabs(tabs,callback){
 		//Switches to the tab clicked
 		li.addEventListener('click',function(event){
 			event.stopPropagation();
+			//If the mouse is clicked within the bounds of the closeButton, simulate a click event and return.
 			if (event.pageX>=closeButton.getBoundingClientRect().left && event.pageX<=closeButton.getBoundingClientRect().right){
 				closeButton.click();
 				return;
 			}
+			//If the mouse is clicked within the bounds of the pinButton, simulate a click event and return.
 			if (event.pageX>=pinButton.getBoundingClientRect().left && event.pageX<=pinButton.getBoundingClientRect().right){
 				pinButton.click();
 				return;
@@ -182,6 +184,7 @@ function setupTabs(tabs,callback){
 		});
 		
 		var mouseListenerFunction = function(event){
+			//If the mouse is within the bounds of the closeButton, highlight it as if it's being hovered.
 			if (event.clientX>=closeButton.getBoundingClientRect().left && event.clientX<=closeButton.getBoundingClientRect().right){
 				console.log("Adding!");
 				closeButton.classList.add('fakeHover');
@@ -190,6 +193,7 @@ function setupTabs(tabs,callback){
 			else{
 				closeButton.classList.remove('fakeHover');
 			}
+			//If the mouse is within the bounds of the pinButton, highlight it as if it's being hovered.
 			if (event.clientX>=pinButton.getBoundingClientRect().left && event.clientX<=pinButton.getBoundingClientRect().right){
 				pinButton.classList.add('fakeHover');
 			}
