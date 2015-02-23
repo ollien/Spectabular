@@ -484,7 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		//Close when c is pressed
 		else if (event.keyCode===67){
-			if (tabKeyIndex>0){
+			if (tabKeyIndex>=0){
 				tabList[tabKeyIndex].querySelector('i.close').click();
 				//Move the selection after pressing c.
 				//Check to make sure we're not leaving the bounds of the list
@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		//Pin when p is pressed
 		else if(event.keyCode===80){
-			if (tabKeyIndex>0){
+			if (tabKeyIndex>=0){
 				tabList[tabKeyIndex].querySelector('i.pin').click();
 			}
 		}
