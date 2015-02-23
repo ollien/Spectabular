@@ -18,7 +18,7 @@ li.tab{
 	list-style: none;
 	background-color:#FFFFFF;
 	background-repeat: no-repeat;
-	background-position-y: 3px;
+	background-position-y: 4px;
 	background-size: 16px 16px;
 	padding-left: 18px;
 	padding-top: 3px;
@@ -27,6 +27,7 @@ li.tab{
 }
 li.tab > span.tabName{
 	width:400px;
+	padding-top: 2px;
 	display:inline-block;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
