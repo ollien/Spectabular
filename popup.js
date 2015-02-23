@@ -427,9 +427,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				tabList[tabKeyIndex].click();
 			}
 		}
-
+		//Close when c is pressed
 		else if (event.keyCode===67){
 			tabList[tabKeyIndex].querySelector('i.close').click();
+			//Move the selection after pressing c.
 			//Check to make sure we're not leaving the bounds of the list
 			if (tabKeyIndex-1>0){
 				tabKeyIndex-=1;
@@ -451,9 +452,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			tabList[tabKeyIndex].classList.add('keyHover');
 		}
-
+		//Pin when p is pressed
 		else if(event.keyCode===80){
 			tabList[tabKeyIndex].querySelector('i.pin').click();
+		}
+		//Go to search box when s is pressed.
+		else if (event.keyCode===83){
+			event.preventDefault();
+			scrollTo(0, 0);
+			filterInput.focus();
 		}
 	});
 });
