@@ -301,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	//Workaround to prevent letters from triggering events.
 	filterInput.addEventListener('keydown', function(event){
-		if (event.keyCode!=40 && event.keyCode!=38 && event.keyCode!=13){
+		if (event.keyCode!=40 && event.keyCode!=38 && event.keyCode!=13 && event.keyCode!=33 && event.keyCode!=34){
 			event.stopPropagation();
 		}
 		if (event.keyCode===16){
@@ -361,14 +361,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			shiftDown = true;
 		}
 
-		//If down is pressed, traverse through tabs.
-		else if (event.keyCode===40){
+		//If down is pressed, traverse through tabs. If page down is pressed, traverse through windows.
+		else if (event.keyCode===40 || event.keyCode===34){
 			event.preventDefault();
 			event.stopPropagation();
 			if (document.activeElement===filterInput){
 				filterInput.blur();
 			}
-			if (shiftDown){
+			//If shift and down are pressed, or page down is pressed, traverse through windows
+			if (shiftDown || event.keyCode===34){
 				if (windowKeyIndex<windowList.length-1){
 					if (windowKeyIndex>=0)
 						windowList[windowKeyIndex].classList.remove('keyHover');
@@ -422,11 +423,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		}
 		//If up is pressed, traverse through tabs
-		else if (event.keyCode===38){
+		else if (event.keyCode===38 || event.keyCode===33 ){
 			event.preventDefault();
 			event.stopPropagation();
-			//If shift is down switch windows
-			if (shiftDown){
+			//If shift is down, or page up is pressed, traverse windows
+			if (shiftDown || event.keyCode===33){
 				if (windowKeyIndex>0){
 					windowList[windowKeyIndex].classList.remove('keyHover');
 					if (tabKeyIndex>=0)
