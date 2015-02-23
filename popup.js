@@ -481,6 +481,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (tabKeyIndex>=0){
 				tabList[tabKeyIndex].click();
 			}
+			else if (mainList.classList.contains('searching')){
+				createTabList(mainList, 0)[0].click();
+			}
 		}
 		//Close when c is pressed
 		else if (event.keyCode===67){
