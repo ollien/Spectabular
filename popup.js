@@ -134,7 +134,7 @@ function setupTabs(tabs,callback){
 			textSpan.textContent="Untitled";	
 		}
 
-		closeButton.onclick = function(event){
+		closeButton.addEventListener('click',function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			chrome.tabs.remove(currentTab.id);
@@ -146,8 +146,9 @@ function setupTabs(tabs,callback){
 				li.parentNode.removeChild(li);
 			}
 			setHeights();
-		}
-		pinButton.onclick = function(event){
+		});
+		
+		pinButton.addEventListener('click',function(event){
 			event.preventDefault();
 			event.stopPropagation();
 			if (pinButton.classList.contains('pinned')){
@@ -159,9 +160,10 @@ function setupTabs(tabs,callback){
 				chrome.tabs.update(currentTab.id, {'pinned':true});
 				unmovedPins.push(li);
 			}
-		}
+		});
+		
 		//Switches to the tab clicked
-		li.onclick = function(event){
+		li.addEventListener('click',function(event){
 			event.stopPropagation();
 			if (event.pageX>=closeButton.getBoundingClientRect().left && event.pageX<=closeButton.getBoundingClientRect().right){
 				closeButton.click();
@@ -177,7 +179,7 @@ function setupTabs(tabs,callback){
 				}
 				chrome.tabs.update(currentTab.id,{'highlighted':true,'active':true});
 			});
-		}
+		});
 
 		li.appendChild(textSpan);
 		textSpan.appendChild(pinButton);
