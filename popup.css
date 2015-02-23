@@ -25,9 +25,6 @@ li.tab{
 	padding-bottom: 3px;
 	margin-left: 0px;
 }
-li.tab.alt,li.tab:before{
-	background-color:#e8e8e8
-}
 li.tab > span.tabName{
 	width:400px;
 	padding-top: 2px;

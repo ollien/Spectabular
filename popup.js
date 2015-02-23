@@ -103,7 +103,7 @@ function setupWindowElement(currentWindow,callback){
 
 function setupTabs(tabs,callback){
 	var tabElements = [];
-	tabs.forEach(function(currentTab,i){
+	tabs.forEach(function(currentTab){
 		var li = document.createElement("li");
 		var textSpan = document.createElement("span");
 		var closeButton = document.createElement("i");
@@ -130,12 +130,10 @@ function setupTabs(tabs,callback){
 		li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')";
 		textSpan.classList.add("tabName");
 		textSpan.textContent=currentTab.title;
-		if (textSpan.textContent.length===0){
+		if (textSpan.textContent==""){
 			textSpan.textContent="Untitled";	
 		}
-		if (i%2===0){
-			li.classList.add('alt');
-		}
+
 		closeButton.addEventListener('click',function(event){
 			event.preventDefault();
 			event.stopPropagation();
