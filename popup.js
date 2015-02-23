@@ -163,6 +163,14 @@ function setupTabs(tabs,callback){
 		//Switches to the tab clicked
 		li.onclick = function(event){
 			event.stopPropagation();
+			if (event.pageX>=closeButton.getBoundingClientRect().left && event.pageX<=closeButton.getBoundingClientRect().right){
+				closeButton.click();
+				return;
+			}
+			if (event.pageX>=pinButton.getBoundingClientRect().left && event.pageX<=pinButton.getBoundingClientRect().right){
+				pinButton.click();
+				return;
+			}
 			chrome.windows.getCurrent(function(resultWindow){
 				if (currentTab.id!=resultWindow.id){
 					chrome.windows.update(currentTab.windowId,{'focused':true});
