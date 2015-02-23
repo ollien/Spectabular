@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					windowKeyIndex+=1;
 					windowList[windowKeyIndex].classList.add('keyHover');
 					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
-						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
+						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight/2;
 						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight);
 					}
 				}
@@ -401,7 +401,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
 						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
 						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight);
-						console.log("scrolled");
 					}
 				}
 			}
