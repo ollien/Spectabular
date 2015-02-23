@@ -281,8 +281,9 @@ function setHeights(){
 document.addEventListener('DOMContentLoaded', function() {
 	var mainList = document.getElementById("windows");
 	var filterInput = document.getElementById("search");
-	var windowKeyIndex = 0;
+	var windowKeyIndex = -1; //-1 indicdatesnothing is selected. ANything above that indicates that a window is selected
 	var tabKeyIndex = -2; //-2 indicates nothing is selected. -1 indicates the window is selected. Anything above that indicates that a tab is selected.
+	var shiftDown = false;
 	getWindows(mainList,setHeights);
 	filterInput.addEventListener('input', function(event){
 		search(filterInput.value,function(windows){
@@ -302,6 +303,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	filterInput.addEventListener('keydown', function(event){
 		if (event.keyCode!=40 && event.keyCode!=38 && event.keyCode!=13){
 			event.stopPropagation();
+		}
+		if (event.keyCode===16){
+			console.log("shift pressed!");
+			shiftDown = true;
 		}
 	});
 
@@ -349,16 +354,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	window.addEventListener('keydown', function(event){
 		var windowList = createWindowList(mainList);
-		var tabList = createTabList(mainList,windowKeyIndex);
+		var tabList = windowKeyIndex>=0 ? createTabList(mainList,windowKeyIndex) : null;
+		//Track if shift is pressed
+		if (event.keyCode===16){
+			console.log("shift pressed!");
+			shiftDown = true;
+		}
+
 		//If down is pressed, traverse through tabs.
-		if (event.keyCode===40){
+		else if (event.keyCode===40){
 			event.preventDefault();
 			event.stopPropagation();
 			if (document.activeElement===filterInput){
 				filterInput.blur();
 			}
+			if (shiftDown){
+				if (windowKeyIndex<windowList.length-1){
+					if (windowKeyIndex>=0)
+						windowList[windowKeyIndex].classList.remove('keyHover');
+					if (tabKeyIndex>=0)
+						tabList[tabKeyIndex].classList.remove('keyHover');
+					tabKeyIndex=-1;
+					windowKeyIndex+=1;
+					windowList[windowKeyIndex].classList.add('keyHover');
+					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
+						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
+						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight);
+					}
+				}
+			}
 			//If nothing is selected, select the the window itself.
-			if (tabKeyIndex===-2){
+			else if (tabKeyIndex===-2){
+				if (windowKeyIndex>=0)
+					windowList[windowKeyIndex].classList.remove('keyHover');
+				windowKeyIndex+=1;
 				windowList[windowKeyIndex].classList.add('keyHover');
 				tabKeyIndex+=1;
 			}
@@ -475,7 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			filterInput.focus();
 		}
 		//Rename a window when R is pressed
-		else if (event.keyCode==82){
+		else if (event.keyCode===82){
 			event.preventDefault();
 			if (tabKeyIndex===-1){
 				var windowList = createWindowList(mainList);
@@ -485,6 +514,15 @@ document.addEventListener('DOMContentLoaded', function() {
 					'cancellable':true
 				}));
 			}
+		}		
+	});
+	
+	
+	window.addEventListener('keyup', function(event){
+		//Track if shift is released
+		if (event.keyCode===16){
+			console.log("shift released");
+			shiftDown = false;
 		}
 	});
 });
