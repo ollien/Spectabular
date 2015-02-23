@@ -56,9 +56,9 @@ li.window>span.textContent:hover,li.window.keyHover>span.textContent{
 }
 i.close{
 	position:absolute;
-	top:3px;
+	top:1px;
 	right:5px;
-	font-size: 12px;
+	font-size: 14px;
 	color:#000;
 }
 i.close:hover{
@@ -66,9 +66,9 @@ i.close:hover{
 }
 i.pin{
 	position:absolute;
-	top:3px;
+	top:2px;
 	right:20px;
-	font-size: 12px;
+	font-size: 14px;
 	color:#000;
 }
 i.pin.pinned{
