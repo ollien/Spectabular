@@ -180,7 +180,31 @@ function setupTabs(tabs,callback){
 				chrome.tabs.update(currentTab.id,{'highlighted':true,'active':true});
 			});
 		});
+		
+		var mouseListenerFunction = function(event){
+			if (event.clientX>=closeButton.getBoundingClientRect().left && event.clientX<=closeButton.getBoundingClientRect().right){
+				console.log("Adding!");
+				closeButton.classList.add('fakeHover');
+				console.log(closeButton.classList);
+			}
+			else{
+				closeButton.classList.remove('fakeHover');
+			}
+			if (event.clientX>=pinButton.getBoundingClientRect().left && event.clientX<=pinButton.getBoundingClientRect().right){
+				pinButton.classList.add('fakeHover');
+			}
+			else{
+				pinButton.classList.remove('fakeHover');
+			}
 
+		}
+		
+		li.addEventListener('mousein', mouseListenerFunction);
+		li.addEventListener('mousemove', mouseListenerFunction);
+		li.addEventListener('mouseout', function(event){
+			closeButton.classList.remove('fakeHover');
+			pinButton.classList.remove('fakeHover');
+		});
 		li.appendChild(textSpan);
 		textSpan.appendChild(pinButton);
 		textSpan.appendChild(closeButton);

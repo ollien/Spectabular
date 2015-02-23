@@ -62,7 +62,7 @@ i.close{
 	font-size: 14px;
 	color:#000;
 }
-i.close:hover{
+i.close:hover,i.close.fakeHover{
 	color:#E53935
 }
 i.pin{
@@ -75,10 +75,10 @@ i.pin{
 i.pin.pinned{
 	color:#1565C0;
 }
-i.pin:hover{
+i.pin:hover,i.pin.fakeHover{
 	color:#1565C0;
 }
-i.pin.pinned:hover{
+i.pin.pinned:hover,i.pin.pinned.fakeHover{
 	color:#000;
 }
 input#search{
