@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					windowKeyIndex+=1;
 					tabKeyIndex = -1;
 					windowList[windowKeyIndex].classList.add('keyHover');
-					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
+					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
 						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
 						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight);
 						console.log("scrolled");
@@ -426,8 +426,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		else if (event.keyCode===38){
 			event.preventDefault();
 			event.stopPropagation();
+			//If shift is down switch windows
+			if (shiftDown){
+				if (windowKeyIndex>0){
+					windowList[windowKeyIndex].classList.remove('keyHover');
+					if (tabKeyIndex>=0)
+						tabList[tabKeyIndex].classList.remove('keyHover');
+					tabKeyIndex=-1;
+					windowKeyIndex-=1;
+					windowList[windowKeyIndex].classList.add('keyHover');
+					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().top<=0){
+						var scrollAmount = document.querySelector('body').clientHeight/2 -windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom;
+						console.log(scrollAmount);
+						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount*-1 : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight*-1);
+					}
+				}
+			}
 			//If a window is selected, switch to the next one.
-			if (tabKeyIndex===-1){
+			else if (tabKeyIndex===-1){
 				windowList[windowKeyIndex].classList.remove('keyHover');
 				if (windowKeyIndex>0){
 					windowKeyIndex-=1;
