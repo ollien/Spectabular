@@ -369,6 +369,11 @@ document.addEventListener('DOMContentLoaded', function() {
 					windowKeyIndex+=1;
 					tabKeyIndex = -1;
 					windowList[windowKeyIndex].classList.add('keyHover');
+					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
+						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
+						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight);
+						console.log("scrolled");
+					}
 				}
 			}
 			//Otherwise, just traverse the tab list.
@@ -381,8 +386,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				tabList[tabKeyIndex].classList.add('keyHover');
 			}
 			//Scroll if the index passes the bottom border
-			if (tabList[tabKeyIndex].getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
-				scrollBy(0, tabList[tabKeyIndex].clientHeight);
+			if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
+				//Get the amount less than the height that the element is
+				var scrollAmount = tabList[tabKeyIndex].getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
+				//Scroll by either the height or scrollAmount, whichever is greater.
+				scrollBy(0,scrollAmount>tabList[tabKeyIndex].clientHeight ? scrollAmount : tabList[tabKeyIndex].clientHeight);
 			}
 		}
 		//If up is pressed, traverse through tabs
