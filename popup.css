@@ -17,9 +17,10 @@ ul#windows{
 	margin-bottom: 0px;
 }
 li.window{
-	text-align: center;
+	text-align: left;
 }
 ul.tabs{
+	text-align: left;
 	padding-left: 0px;
 	margin-left: 0px;
 }
@@ -28,7 +29,7 @@ li.tab{
 	background-color:#C4C8CD;
 	background-repeat: no-repeat;
 	background-position-y: 4px;
-	background-position-x: 20px;
+	background-position-x: 25px;
 	background-size: 16px 16px;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -40,14 +41,15 @@ li.tab.light{
 	background-color: #FFFFFF;
 }
 li.tab > span.tabName{
-	width:400px;
+	width:600px;
 	padding-top: 2px;
 	display:inline-block;
 	color:#104B68;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
 	white-space: nowrap;
-	padding-right: 40px;
+	padding-left:45px;
+	padding-right: 23px;
 	max-width: 100%;
 	box-sizing: border-box;
 	position: relative;
@@ -71,6 +73,7 @@ li.tab:hover,li.tab.keyHover{
 li.window>span.textContent{
 	padding-top: 7px;
 	padding-bottom: 7px;
+	padding-left:11px;
 	display:block;
 	width: 100%;
 	background-color: #778899;
@@ -96,7 +99,7 @@ li.window>span.textContent:hover,li.window.keyHover>span.textContent{
 i.close{
 	position:absolute;
 	top:1px;
-	right:5px;
+	right:11px;
 	font-size: 14px;
 	color:#3F3F3F;
 }
@@ -106,7 +109,7 @@ i.close:hover,i.close.fakeHover{
 i.pin{
 	position:absolute;
 	top:2px;
-	left:6px;
+	left:11px;
 	font-size: 14px;
 	color:#3F3F3F;
 }
