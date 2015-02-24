@@ -10,42 +10,63 @@ body{
 }
 ul#windows{
 	max-height:600px;
+	padding-left: 0px;
+	margin-left: 0px;
+}
+li.window{
+	text-align: center;
 }
 ul.tabs{
-	padding-left: .875em;
+	padding-left: 0px;
+	margin-left: 0px;
 }
 li.tab{
 	list-style: none;
-	background-color:#FFFFFF;
+	background-color:#C4C8CD;
 	background-repeat: no-repeat;
 	background-position-y: 4px;
+	background-position-x: 6px;
 	background-size: 16px 16px;
-	padding-left: 18px;
+	padding-left: 30px;
 	padding-top: 3px;
 	padding-bottom: 3px;
 	margin-left: 0px;
+	display:block;
+	position:relative;
 }
 li.tab > span.tabName{
 	width:400px;
 	padding-top: 2px;
 	display:inline-block;
+	color:#104B68;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
 	white-space: nowrap;
-	padding-right: 30px;
+	padding-right: 40px;
 	max-width: 100%;
 	box-sizing: border-box;
 	position: relative;
 }
+
+li.tab:nth-child(odd){
+	background-color:#D5D9DE;
+}
+
 li.tab:hover,li.tab.keyHover{
 	background-color:#B3B3B3;
 }
 li.window>span.textContent{
+	padding-top: 7px;
+	padding-bottom: 7px;
 	display:block;
 	width: 100%;
+	background-color: #778899;
+	font-weight: bold;
+	color:#D1D6E7;
 }
 li.window>span.textContent:hover,li.window.keyHover>span.textContent{
 	background-color:#B3B3B3;
+	color:#000;
 }
 .noselect {
 	-webkit-touch-callout: none;
@@ -60,7 +81,7 @@ i.close{
 	top:1px;
 	right:5px;
 	font-size: 14px;
-	color:#000;
+	color:#3F3F3F;
 }
 i.close:hover,i.close.fakeHover{
 	color:#E53935
@@ -70,7 +91,7 @@ i.pin{
 	top:2px;
 	right:20px;
 	font-size: 14px;
-	color:#000;
+	color:#3F3F3F;
 }
 i.pin.pinned{
 	color:#1565C0;
