@@ -34,6 +34,9 @@ li.tab{
 	display:block;
 	position:relative;
 }
+li.tab.light{
+	background-color: #FFFFFF;
+}
 li.tab > span.tabName{
 	width:400px;
 	padding-top: 2px;
@@ -48,8 +51,16 @@ li.tab > span.tabName{
 	position: relative;
 }
 
+li.tab.light > span.tabName{
+	color:#000;
+}
+
 li.tab:nth-child(odd){
 	background-color:#D5D9DE;
+}
+
+li.tab.light:nth-child(odd){
+	background-color: #E9E9E9;
 }
 
 li.tab:hover,li.tab.keyHover{
@@ -63,6 +74,10 @@ li.window>span.textContent{
 	background-color: #778899;
 	font-weight: bold;
 	color:#D1D6E7;
+}
+li.window.light>span.textContent{
+	background-color: #AABBDD;
+	color: #F0F2F8;
 }
 li.window>span.textContent:hover,li.window.keyHover>span.textContent{
 	background-color:#B3B3B3;
