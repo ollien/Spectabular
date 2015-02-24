@@ -13,6 +13,8 @@ ul#windows{
 	max-height:600px;
 	padding-left: 0px;
 	margin-left: 0px;
+	margin-top: 5px;
+	margin-bottom: 0px;
 }
 li.window{
 	text-align: center;
@@ -105,7 +107,7 @@ i.close:hover,i.close.fakeHover{
 i.pin{
 	position:absolute;
 	top:2px;
-	right:20px;
+	right:23px;
 	font-size: 14px;
 	color:#3F3F3F;
 }
