@@ -391,6 +391,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				windowKeyIndex+=1;
 				windowList[windowKeyIndex].classList.add('keyHover');
 				tabKeyIndex+=1;
+				console.log(windowList[windowKeyIndex].getBoundingClientRect().bottom);
+				if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom<=0){
+					scrollTo(0, windowList[windowKeyIndex].getBoundingClientRect().top);
+				}
 			}
 			//If we're at the last element, switch windows.
 			else if (tabKeyIndex===tabList.length-1){
@@ -402,6 +406,9 @@ document.addEventListener('DOMContentLoaded', function() {
 					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
 						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
 						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight);
+					}
+					else if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom<=0){
+						scrollTo(0, windowList[windowKeyIndex].getBoundingClientRect().bottom);
 					}
 				}
 			}
@@ -420,6 +427,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				var scrollAmount = tabList[tabKeyIndex].getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
 				//Scroll by either the height or scrollAmount, whichever is greater.
 				scrollBy(0,scrollAmount>tabList[tabKeyIndex].clientHeight ? scrollAmount : tabList[tabKeyIndex].clientHeight);
+			}
+			else if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().bottom<=0){
+				scrollTo(0, tabList[tabKeyIndex].getBoundingClientRect().bottom);
 			}
 		}
 		//If up is pressed, traverse through tabs
