@@ -28,9 +28,8 @@ li.tab{
 	background-color:#C4C8CD;
 	background-repeat: no-repeat;
 	background-position-y: 4px;
-	background-position-x: 6px;
+	background-position-x: 20px;
 	background-size: 16px 16px;
-	padding-left: 30px;
 	padding-top: 3px;
 	padding-bottom: 3px;
 	margin-left: 0px;
@@ -107,7 +106,7 @@ i.close:hover,i.close.fakeHover{
 i.pin{
 	position:absolute;
 	top:2px;
-	right:23px;
+	left:6px;
 	font-size: 14px;
 	color:#3F3F3F;
 }
