@@ -7,6 +7,7 @@ body{
 	max-height:600px; 
 	width:400px;
 	overflow:scroll;
+	margin:0px;
 }
 ul#windows{
 	max-height:600px;
