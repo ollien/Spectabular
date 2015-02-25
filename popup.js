@@ -463,6 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 				//If it's the first window, highlight the search bar
 				else{
+					tabKeyIndex=-1;
 					filterInput.focus();
 				}
 			}
