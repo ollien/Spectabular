@@ -19,8 +19,8 @@ function populateWindowStorage(callback){
 	});
 }
 
-function clearStorage(callback){
-	chrome.storage.local.clear(callback);
+function clearWindowStorage(callback){
+	chrome.storage.local.remove('windows',callback);
 }
 
 function saveWindows(callback){
@@ -183,7 +183,7 @@ chrome.storage.local.get('windows',function(result){
 });
 
 
-clearStorage(function(){
+clearWindowStorage(function(){
 	createWindowStorage(function(){
 		populateWindowStorage();
 	});
