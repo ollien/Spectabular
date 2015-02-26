@@ -269,10 +269,19 @@ function setHeights(){
 	var windows = document.getElementById("windows");
 	var body = document.querySelector("body");
 	var html = document.querySelector("html");
-	var height = windows.offsetHeight+"px";
-	if (windows.offsetHeight>=600){
-		height = "600px";
+	var filterInput = document.getElementById("search");
+	var height = windows.offsetHeight+filterInput.offsetHeight;
+	var style = getComputedStyle(windows);
+	if (style.marginTop.length>0){
+		height+=parseInt(style.marginTop);
 	}
+	if (style.marginBottom.length>0){
+		height+=parseInt(style.marginBottom);
+	}
+	if (height>=600){
+		height = 600;
+	}
+	height+="px";
 	html.style.height = height;
 	body.style.height = height;
 }
