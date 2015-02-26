@@ -186,9 +186,7 @@ function setupTabs(tabs,callback){
 		var mouseListenerFunction = function(event){
 			//If the mouse is within the bounds of the closeButton, highlight it as if it's being hovered.
 			if (event.clientX>=closeButton.getBoundingClientRect().left && event.clientX<=closeButton.getBoundingClientRect().right){
-				console.log("Adding!");
 				closeButton.classList.add('fakeHover');
-				console.log(closeButton.classList);
 			}
 			else{
 				closeButton.classList.remove('fakeHover');
@@ -305,7 +303,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.stopPropagation();
 		}
 		if (event.keyCode===16){
-			console.log("shift pressed!");
 			shiftDown = true;
 		}
 	});
@@ -357,7 +354,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		var tabList = windowKeyIndex>=0 ? createTabList(mainList,windowKeyIndex) : null;
 		//Track if shift is pressed
 		if (event.keyCode===16){
-			console.log("shift pressed!");
 			shiftDown = true;
 		}
 
@@ -391,7 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				windowKeyIndex+=1;
 				windowList[windowKeyIndex].classList.add('keyHover');
 				tabKeyIndex+=1;
-				console.log(windowList[windowKeyIndex].getBoundingClientRect().bottom);
 				if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom<=0){
 					scrollTo(0, windowList[windowKeyIndex].getBoundingClientRect().top);
 				}
@@ -447,7 +442,6 @@ document.addEventListener('DOMContentLoaded', function() {
 					windowList[windowKeyIndex].classList.add('keyHover');
 					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().top<=0){
 						var scrollAmount = document.querySelector('body').clientHeight/2 -windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom;
-						console.log(scrollAmount);
 						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount*-1 : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight*-1);
 					}
 				}
@@ -551,7 +545,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	window.addEventListener('keyup', function(event){
 		//Track if shift is released
 		if (event.keyCode===16){
-			console.log("shift released");
 			shiftDown = false;
 		}
 	});

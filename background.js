@@ -113,7 +113,6 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,resultingTab){
 	var tab = findTabById(resultingTab.windowId, tabId);
 	// tab.window.tabs[tab.index] = resultingTab; //Old method that worked, but was weird on some pages such a gist
 	chrome.tabs.get(tabId,function(currentTab){
-		console.log(currentTab);
 		tab.window.tabs[tab.index] = currentTab;
 		saveWindows();
 	});
