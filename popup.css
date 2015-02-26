@@ -126,4 +126,5 @@ i.pin.pinned:hover,i.pin.pinned.fakeHover{
 }
 input#search{
 	width:100%;
+	box-sizing: border-box;
 }
