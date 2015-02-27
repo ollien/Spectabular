@@ -18,6 +18,10 @@ function setupOptionsView(optionsDiv){
 	var children = Array.prototype.slice.call(optionsDiv.querySelectorAll('input.option'));
 	children.forEach(function(child){
 		child.checked = options[child.id];
+		child.addEventListener('change', function(event){
+			options[event.target.id] = event.target.checked;
+			saveOptions();
+		});
 	});
 }
 
