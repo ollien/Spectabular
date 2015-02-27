@@ -304,7 +304,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	var shiftDown = false;
 	getOptions(function(data){
 		darkMode = data.options.darkMode;
-		console.log("past there!");
 		getWindows(mainList,setHeights);
 	});
 	filterInput.addEventListener('input', function(event){
