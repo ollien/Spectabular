@@ -1,9 +1,14 @@
 var totalHeight = 0; //Total height of the body of the popup
 var unmovedPins = []; //Stores pinned tabs that haven't been within the popup
 var pinnedTabs = []; //Stores pinned tabs that have been moved within the popup
+var darkMode = true;
 //Gets windows from storage
 function getStorage(callback){
 	chrome.storage.local.get("windows",callback);
+}
+
+function getOptions(callback){
+	chrome.storage.local.get("options",callback);
 }
 
 function changeWindowName(windowId,newName,callback){
@@ -68,6 +73,9 @@ function setupWindowElement(currentWindow,callback){
 	ul.classList.add("tabs");
 	li.setAttribute("windowId", currentWindow.id);
 	textContent.classList.add("textContent");
+	if (!darkMode){
+		textContent.classList.add("light");
+	}
 	windowName.classList.add("windowName");
 	windowName.textContent = currentWindow.name;
 	seperator.textContent=" - "
@@ -126,6 +134,9 @@ function setupTabs(tabs,callback){
 		li.classList.add("tab");
 		li.classList.add("noselect");
 		li.classList.add("pointer");
+		if (!darkMode){
+			li.classList.add("light");
+		}
 		//Setup favicon
 		li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')";
 		textSpan.classList.add("tabName");
@@ -291,7 +302,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	var windowKeyIndex = -1; //-1 indicdatesnothing is selected. ANything above that indicates that a window is selected
 	var tabKeyIndex = -2; //-2 indicates nothing is selected. -1 indicates the window is selected. Anything above that indicates that a tab is selected.
 	var shiftDown = false;
-	getWindows(mainList,setHeights);
+	getOptions(function(data){
+		darkMode = data.options.darkMode;
+		console.log("past there!");
+		getWindows(mainList,setHeights);
+	});
 	filterInput.addEventListener('input', function(event){
 		search(filterInput.value,function(windows){
 			removeChildren(mainList);
