@@ -4,6 +4,16 @@ function createWindowStorage(callback){
 	chrome.storage.local.set({'windows':[]},callback);
 }
 
+function createOptionsStorage(callback){
+	chrome.storage.local.set({"options":{
+		'darkMode':true,
+	}});
+}
+
+function getOptions(callback){
+	chrome.storage.local.get("options",callback);
+}
+
 function populateWindowStorage(callback){
 	chrome.windows.getAll({'populate':true},function(result){
 		result = result.filter(function(currentWindow){
@@ -185,9 +195,18 @@ chrome.storage.local.get('windows',function(result){
 	console.log(result);
 });
 
-
 clearWindowStorage(function(){
-	createWindowStorage(function(){
-		populateWindowStorage();
+	getOptions(function(data){
+		if (Object.keys(data).length===0){
+			createOptionsStorage(function(){
+				getOptions(function(data){
+					options = data.options;
+					setupOptionsView(optionsDiv);
+				});
+			});
+		}
+		createWindowStorage(function(){
+			populateWindowStorage();
+		});
 	});
 });
