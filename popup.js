@@ -500,7 +500,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			//Scroll if the tab index passes the top border.
 			if (tabList[tabKeyIndex].getBoundingClientRect().top<=0){
 				scrollBy(0, tabList[tabKeyIndex].clientHeight*-1);
-			}	
+			}
+			else if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
+				scrollTo(0, tabList[tabKeyIndex].getBoundingClientRect().bottom);
+			}
 		}
 		//If enter is pressed, switch to the tab.
 		else if (event.keyCode===13){
