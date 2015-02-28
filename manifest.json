@@ -3,7 +3,7 @@
 	"description":"Tree-based-tabs in chrome",
 	"author":"ollien",
 	"version":"0.1",
-	"manifest_version":5,
+	"manifest_version":6,
 	"icons":{
 		"16":"img/icon16.png",
 		"48":"img/icon48.png",
@@ -32,6 +32,11 @@
 	},
 	
 	"options_page":"options.html",
+	
+	"options_ui":{
+		"page":"options.html",
+		"chrome_style":true
+	},
 	
 	"permissions":["tabs","storage","unlimitedStorage"]
 			
