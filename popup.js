@@ -138,7 +138,12 @@ function setupTabs(tabs,callback){
 			li.classList.add("light");
 		}
 		//Setup favicon
-		li.style.backgroundImage = "url(\'"+(currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null ? currentTab.favIconUrl:"img/default-favicon.png")+"\')";
+		if (currentTab.favIconUrl!==undefined && currentTab.favIconUrl!==null && currentTab.favIconUrl.indexOf("chrome://")===-1){
+			li.style.backgroundImage = "url(\'"+currentTab.favIconUrl+"\')";
+		}
+		else{
+			li.style.backgroundImage = "url(\'img/default-favicon.png\')";
+		}
 		textSpan.classList.add("tabName");
 		textSpan.textContent=currentTab.title;
 		if (textSpan.textContent==""){
