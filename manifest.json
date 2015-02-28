@@ -1,9 +1,9 @@
 {
-	"name":"Tabular",
+	"name":"Spectabular",
 	"description":"Tree-based-tabs in chrome",
 	"author":"ollien",
 	"version":"0.1",
-	"manifest_version":4,
+	"manifest_version":5,
 	"icons":{
 		"16":"img/icon16.png",
 		"48":"img/icon48.png",
