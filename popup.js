@@ -446,6 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				//Scroll by either the height or scrollAmount, whichever is greater.
 				scrollBy(0,scrollAmount>tabList[tabKeyIndex].clientHeight ? scrollAmount : tabList[tabKeyIndex].clientHeight);
 			}
+			//If the user has scrolled off screen, but down is pressed, scroll to it.
 			else if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().bottom<=0){
 				scrollTo(0, tabList[tabKeyIndex].getBoundingClientRect().bottom);
 			}
@@ -501,6 +502,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (tabList[tabKeyIndex].getBoundingClientRect().top<=0){
 				scrollBy(0, tabList[tabKeyIndex].clientHeight*-1);
 			}
+			//If the user has scrolled off screen, but up is pressed, scroll to it.
 			else if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
 				scrollTo(0, tabList[tabKeyIndex].getBoundingClientRect().bottom);
 			}
