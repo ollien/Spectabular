@@ -1,4 +1,3 @@
-var totalHeight = 0; //Total height of the body of the popup
 var unmovedPins = []; //Stores pinned tabs that haven't been within the popup
 var pinnedTabs = []; //Stores pinned tabs that have been moved within the popup
 var darkMode = true;
