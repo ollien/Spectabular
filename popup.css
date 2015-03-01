@@ -131,3 +131,10 @@ input#search{
 	box-sizing: border-box;
 	line-height: normal;
 }
+span#noResults{
+	display: block;
+	text-align: center;
+	margin-bottom:5px;
+	font-size: 15px;
+	visibility: none;
+}
