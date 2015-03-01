@@ -108,7 +108,7 @@ i.close:hover,i.close.fakeHover{
 i.pin{
 	position:absolute;
 	top:2px;
-	left:11px;
+	left:9px;
 	font-size: 14px;
 	color:#3F3F3F;
 }
