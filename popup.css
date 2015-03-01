@@ -132,9 +132,8 @@ input#search{
 	line-height: normal;
 }
 span#noResults{
-	display: block;
+	display: none; /* Will be display block via JS */
 	text-align: center;
 	margin-bottom:5px;
 	font-size: 15px;
-	visibility: none;
 }

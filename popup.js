@@ -292,7 +292,7 @@ function setHeights(){
 	var filterInput = document.getElementById("search");
 	var noResults = document.getElementById("noResults");
 	if (windows.childNodes.length===0){
-		noResults.style.visibility="visible";
+		noResults.style.display="block";
 		html.style.height = filterInput.getBoundingClientRect().bottom+"px";
 		body.style.height = filterInput.getBoundingClientRect().bottom+"px";
 	}
@@ -311,7 +311,7 @@ function setHeights(){
 		height+="px";
 		html.style.height = height;
 		body.style.height = height;
-		noResults.style.visibility="none";
+		noResults.style.display="none";
 	}
 }
 document.addEventListener('DOMContentLoaded', function() {
