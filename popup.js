@@ -45,17 +45,22 @@ function getWindows(windowList,windows,callback){
 }
 
 function setupWindows(windowList,windows,callback){
-	windows.forEach(function(currentWindow){
-		setupWindowElement(currentWindow, function(windowLi){
-			setupTabs(currentWindow.tabs, function(tabElements){
-				tabElements.forEach(function(currentTab){
-					windowLi.querySelector('ul.tabs').appendChild(currentTab);
+	if (windows.length===0){
+		callback();
+	}
+	else{	
+		windows.forEach(function(currentWindow){
+			setupWindowElement(currentWindow, function(windowLi){
+				setupTabs(currentWindow.tabs, function(tabElements){
+					tabElements.forEach(function(currentTab){
+						windowLi.querySelector('ul.tabs').appendChild(currentTab);
+					});
+					windowList.appendChild(windowLi);
+					callback();
 				});
-				windowList.appendChild(windowLi);
-				callback();
-			});
-		});			
-	});
+			});			
+		});
+	}
 }
 
 //Sets up all tabs to be in their window elements
@@ -285,20 +290,27 @@ function setHeights(){
 	var body = document.querySelector("body");
 	var html = document.querySelector("html");
 	var filterInput = document.getElementById("search");
-	var height = windows.offsetHeight+filterInput.offsetHeight;
-	var style = getComputedStyle(windows);
-	if (style.marginTop.length>0){
-		height+=parseInt(style.marginTop);
+	if (windows.childNodes.length===0){
+		console.log(filterInput.getBoundingClientRect().bottom);
+		html.style.height = filterInput.getBoundingClientRect().bottom+"px";
+		body.style.height = filterInput.getBoundingClientRect().bottom+"px";
 	}
-	if (style.marginBottom.length>0){
-		height+=parseInt(style.marginBottom);
+	else{
+		var height = windows.offsetHeight+filterInput.offsetHeight;
+		var style = getComputedStyle(windows);
+		if (style.marginTop.length>0){
+			height+=parseInt(style.marginTop);
+		}
+		if (style.marginBottom.length>0){
+			height+=parseInt(style.marginBottom);
+		}
+		if (height>=600){
+			height = 600;
+		}
+		height+="px";
+		html.style.height = height;
+		body.style.height = height;
 	}
-	if (height>=600){
-		height = 600;
-	}
-	height+="px";
-	html.style.height = height;
-	body.style.height = height;
 }
 document.addEventListener('DOMContentLoaded', function() {
 	var mainList = document.getElementById("windows");
