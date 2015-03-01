@@ -88,6 +88,7 @@ span.overflowContainer{
 	max-width: 100%;
 	box-sizing: border-box;
 	position: relative;
+	padding-bottom: 1px;
 }
 li.window.light>span.textContent{
 	background-color: #AABBDD;
@@ -101,11 +102,11 @@ span.tabInfo{
 	position: absolute;
 	top:0px;
 	right: 11px;
+	border-bottom: 1px solid;
 }
 span.tabCount,span.tabWord{
 	font-style: italic;
 	font-size: 11px;
-	/* font-weight: 300; */
 }
 .noselect {
 	-webkit-touch-callout: none;
