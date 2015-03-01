@@ -68,8 +68,9 @@ function setupWindowElement(currentWindow,callback){
 	var li = document.createElement("li");
 	var ul = document.createElement("ul");
 	var textContent = document.createElement("span");
+	var overflowContainer = document.createElement("span");
 	var windowName = document.createElement("span");
-	var seperator = document.createElement("span");
+	var tabInfo = document.createElement("span");
 	var tabCount = document.createElement("span");
 	var tabWord = document.createElement("span");
 	li.classList.add("window");
@@ -80,9 +81,10 @@ function setupWindowElement(currentWindow,callback){
 	if (!darkMode){
 		textContent.classList.add("light");
 	}
+	overflowContainer.classList.add("overflowContainer");
+	tabInfo.classList.add("tabInfo");
 	windowName.classList.add("windowName");
 	windowName.textContent = currentWindow.name;
-	seperator.textContent=" - "
 	tabCount.classList.add("tabCount");
 	tabCount.textContent = currentWindow.tabs.length.toString();
 	tabWord.classList.add("tabWord");
@@ -104,10 +106,11 @@ function setupWindowElement(currentWindow,callback){
 		input.focus();
 		input.select();
 	});
-	textContent.appendChild(windowName);
-	textContent.appendChild(seperator)
-	textContent.appendChild(tabCount);
-	textContent.appendChild(tabWord);
+	tabInfo.appendChild(tabCount);
+	tabInfo.appendChild(tabWord);
+	overflowContainer.appendChild(windowName);
+	overflowContainer.appendChild(tabInfo);
+	textContent.appendChild(overflowContainer);
 	li.appendChild(textContent);
 	li.appendChild(ul);
 	callback(li);
@@ -244,7 +247,7 @@ function decrementTabCount(tabLi){
 	if (li.tagName.toLowerCase()!='li' || !li.classList.contains("window")){
 		throw "Not a tab li";
 	}	
-	var tabCount = li.querySelector('span.textContent>span.tabCount');
+	var tabCount = li.querySelector('span.tabInfo>span.tabCount');
 	var num = parseInt(tabCount.textContent)-1;
 	tabCount.textContent=num.toString();
 	var windows = li.parentNode;
@@ -252,7 +255,7 @@ function decrementTabCount(tabLi){
 		throw "Not a tab li";
 	}
 	if (num===1){
-		li.querySelector('span.textContent>span.tabWord').textContent = " tab"
+		li.querySelector('span.tabInfo>span.tabWord').textContent = " tab"
 	}
 	if (num===0){
 		windows.removeChild(li);
