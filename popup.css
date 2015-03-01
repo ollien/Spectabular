@@ -83,12 +83,12 @@ span.overflowContainer{
 	overflow-x: hidden; 
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	display: inline-block;
+	display: block;
 	padding-right: 70px;
 	max-width: 100%;
 	box-sizing: border-box;
 	position: relative;
-	padding-bottom: 1px;
+	/* padding-bottom: 1px; */
 }
 li.window.light>span.textContent{
 	background-color: #AABBDD;
