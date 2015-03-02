@@ -34,6 +34,12 @@ function clearWindowStorage(callback){
 }
 
 function saveWindows(callback){
+	windows.forEach(function(currentWindow){
+		if (currentWindow.indexOf(null)>-1){
+			console.log("[DEBUG] FOUND A NULL ELEMENT.");
+			console.log(currentWindow.tabs);
+		}
+	})
 	chrome.storage.local.set({'windows':windows},callback);
 }
 
