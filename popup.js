@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (tabKeyIndex>=0){
 				tabList[tabKeyIndex].click();
 			}
-			else if (mainList.classList.contains('searching')){
+			else if (mainList.classList.contains('searching') && tabKeyIndex===-2){
 				createTabList(mainList, 0)[0].click();
 			}
 		}
