@@ -116,6 +116,10 @@ chrome.tabs.onCreated.addListener(function(currentTab){
 		containingWindow.window.tabs.push(currentTab);
 		saveWindows();
 	}
+	if (containingWindow.window.tabs.indexOf(null)>-1){
+		console.log("[DEBUG] FOUND A NULL ELEMENT.");
+		console.log(containingWindow.window.tabs);
+	}
 	
 });
 
@@ -125,6 +129,10 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,resultingTab){
 	chrome.tabs.get(tabId,function(currentTab){
 		tab.window.tabs[tab.index] = currentTab;
 		saveWindows();
+		if (tab.window.tabs.indexOf(null)>-1){
+			console.log("[DEBUG] FOUND A NULL ELEMENT.");
+			console.log(tab.window.tabs);
+		}
 	});
 });
 
