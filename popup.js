@@ -550,6 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
 							tab.querySelector('i.close').click();
 						}
 					});
+					tabKeyIndex = 0;
 				}
 				else{
 					tabList[tabKeyIndex].querySelector('i.close').click();
