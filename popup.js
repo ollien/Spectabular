@@ -286,7 +286,7 @@ function createWindowList(mainList){
 }
 
 function createTabList(mainList,windowKeyIndex){
-	return mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes;
+	return Array.prototype.slice.call(mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes);
 }
 function setHeights(){
 	var windows = document.getElementById("windows");
@@ -543,28 +543,38 @@ document.addEventListener('DOMContentLoaded', function() {
 		//Close when c is pressed
 		else if (event.keyCode===67){
 			if (tabKeyIndex>=0){
-				tabList[tabKeyIndex].querySelector('i.close').click();
-				//Move the selection after pressing c.
-				//Check to make sure we're not leaving the bounds of the list
-				if (tabKeyIndex-1>0){
-					tabKeyIndex-=1;
+				if (shiftDown){
+					var selectedTab = tabList[tabKeyIndex];
+					tabList.forEach(function(tab){
+						if (tab!==selectedTab){
+							tab.querySelector('i.close').click();
+						}
+					});
 				}
-				//If we're closing a window with only one tab left, move to the previous list.
-				if (tabList.length===0){
-					//Remove the list from the popup
-					//If we're at the front of the list, we move to the window below it.
-					if (windowKeyIndex===0){
-						tabList = createTabList(mainList, windowKeyIndex);
-						tabKeyIndex=0;
+				else{
+					tabList[tabKeyIndex].querySelector('i.close').click();
+					//Move the selection after pressing c.
+					//Check to make sure we're not leaving the bounds of the list
+					if (tabKeyIndex-1>0){
+						tabKeyIndex-=1;
 					}
-					//Otherwise, we move up one.
-					if (windowKeyIndex>0){
-						windowKeyIndex-=1;
-						tabList = createTabList(mainList, windowKeyIndex);
-						tabKeyIndex=tabList.length-1;
-					}	
+					//If we're closing a window with only one tab left, move to the previous list.
+					if (tabList.length===0){
+						//Remove the list from the popup
+						//If we're at the front of the list, we move to the window below it.
+						if (windowKeyIndex===0){
+							tabList = createTabList(mainList, windowKeyIndex);
+							tabKeyIndex=0;
+						}
+						//Otherwise, we move up one.
+						if (windowKeyIndex>0){
+							windowKeyIndex-=1;
+							tabList = createTabList(mainList, windowKeyIndex);
+							tabKeyIndex=tabList.length-1;
+						}	
+					}
+					tabList[tabKeyIndex].classList.add('keyHover');
 				}
-				tabList[tabKeyIndex].classList.add('keyHover');
 			}
 		}
 		//Pin when p is pressed
