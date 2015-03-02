@@ -37,6 +37,7 @@ function saveWindows(callback){
 	windows.forEach(function(currentWindow){
 		if (currentWindow.indexOf(null)>-1){
 			console.log("[DEBUG] FOUND A NULL ELEMENT.");
+			console.log(new Error().stack);
 			console.log(currentWindow.tabs);
 		}
 	})
