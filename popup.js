@@ -27,21 +27,15 @@ function changeWindowName(windowId,newName,callback){
 	});
 }
 
-function getWindows(windowList,windows,callback){
-	if (typeof windows==="function"){
-		callback = windows;
-		getStorage(function(data){
-			if (data!=null){
-				setupWindows(windowList,data.windows,callback);
-			}
-			else{
-				throw "Windows is null, this hsould never happen.";
-			}
-		});
-	}
-	else{
-		setupWindows(windowList,windows, callback);
-	}
+function getWindows(windowList,callback){
+	getStorage(function(data){
+		if (data!=null){
+			setupWindows(windowList,data.windows,callback);
+		}
+		else{
+			throw "Windows is null, this hsould never happen.";
+		}
+	});
 }
 
 function setupWindows(windowList,windows,callback){
@@ -151,6 +145,7 @@ function setupTabs(tabs,callback){
 		else{
 			li.style.backgroundImage = "url(\'img/default-favicon.png\')";
 		}
+		li.setAttribute("tabUrl", currentTab.url);
 		textSpan.classList.add("tabName");
 		textSpan.textContent=currentTab.title;
 		if (textSpan.textContent==""){
@@ -161,9 +156,9 @@ function setupTabs(tabs,callback){
 			event.preventDefault();
 			event.stopPropagation();
 			chrome.tabs.remove(currentTab.id);
-			decrementTabCount(li);
-			if (li.parentNode.childNodes.length===0){
-				li.parentNode.parentNode.removeChild(li.parentNode);
+			decrementTabCount(li.parentNode);
+			if (li.parentNode.childNodes.length===1){ //If it's one this means we're removing the window.
+				li.parentNode.parentNode.parentNode.removeChild(li.parentNode.parentNode);
 			}
 			else{
 				li.parentNode.removeChild(li);
@@ -238,27 +233,37 @@ function setupTabs(tabs,callback){
 	callback(tabElements);
 }
 
-function decrementTabCount(tabLi){
-	var ul = tabLi.parentNode;
-	if (ul.tagName.toLowerCase()!='ul' || !ul.classList.contains("tabs")){
-		throw "Not a tab li";
-	}
-	var li = ul.parentNode;
+function decrementTabCount(tabsUl){
+	var li = tabsUl.parentNode;
 	if (li.tagName.toLowerCase()!='li' || !li.classList.contains("window")){
-		throw "Not a tab li";
+		throw "Not a tabs ul";
 	}	
 	var tabCount = li.querySelector('span.tabInfo>span.tabCount');
 	var num = parseInt(tabCount.textContent)-1;
 	tabCount.textContent=num.toString();
 	var windows = li.parentNode;
 	if (windows.tagName.toLowerCase()!='ul' || windows.id!="windows"){
-		throw "Not a tab li";
+		throw "Not a tabs ul";
 	}
 	if (num===1){
 		li.querySelector('span.tabInfo>span.tabWord').textContent = " tab"
 	}
-	if (num===0){
-		windows.removeChild(li);
+	setHeights();
+}
+
+function setTabCount(tabsUl,num){
+	var li = tabsUl.parentNode;
+	if (li.tagName.toLowerCase()!='li' || !li.classList.contains("window")){
+		throw "Not a tabs ul";
+	}	
+	var tabCount = li.querySelector('span.tabInfo>span.tabCount');
+	tabCount.textContent=num.toString();
+	var windows = li.parentNode;
+	if (windows.tagName.toLowerCase()!='ul' || windows.id!="windows"){
+		throw "Not a tabs ul";
+	}
+	if (num===1){
+		li.querySelector('span.tabInfo>span.tabWord').textContent = " tab"
 	}
 	setHeights();
 }
@@ -268,17 +273,28 @@ function removeChildren(element){
 		element.removeChild(child);
 	});
 }
-function search(query,callback){
-	getStorage(function(windows){
-		windows = windows.windows;
-		windows = windows.filter(function(currentWindow){
-			currentWindow.tabs = currentWindow.tabs.filter(function(currentTab){
-				return currentTab.title.toLowerCase().indexOf(query)>-1 || new URL(currentTab.url).hostname.indexOf(query)>-1;
-			});
-			return currentWindow.tabs.length>0;
+function search(query,mainList,callback){
+	Array.prototype.slice.call(mainList.childNodes).forEach(function(currentWindow){
+		var tabList = currentWindow.querySelector('ul.tabs');
+		var tabCount = 0;
+		Array.prototype.slice.call(tabList.childNodes).forEach(function(currentTab){
+			if (currentTab.textContent.toLowerCase().indexOf(query.toLowerCase())>-1 || new URL(currentTab.getAttribute("tabUrl")).hostname.indexOf(query)>-1){
+				currentTab.style.display = "block";
+				tabCount+=1;
+			}
+			else{
+				currentTab.style.display = "none";
+			}
 		});
-		callback(windows);
+		if (tabCount===0){
+			currentWindow.style.display="none";
+		}
+		else{
+			currentWindow.style.display="list-item";
+		}
+		setTabCount(tabList, tabCount);
 	});
+	callback();
 }
 
 function createWindowList(mainList){
@@ -328,18 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		getWindows(mainList,setHeights);
 	});
 	filterInput.addEventListener('input', function(event){
-		search(filterInput.value,function(windows){
-			removeChildren(mainList);
-			getWindows(mainList,windows,function(){
-				if (filterInput.value.length>0){
-					mainList.classList.add('searching');
-				}
-				else{
-					mainList.classList.remove('searching');
-				}
-				setHeights();
-			});
-		});
+		search(filterInput.value,mainList,setHeights);
 	});
 	//Workaround to prevent letters from triggering events.
 	filterInput.addEventListener('keydown', function(event){
