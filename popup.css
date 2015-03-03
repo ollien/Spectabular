@@ -59,14 +59,16 @@ li.tab.light > span.tabName{
 	color:#000;
 }
 
-li.tab:nth-child(odd){
+li.tab.odd{
 	background-color:#D5D9DE;
 }
 
-li.tab.light:nth-child(odd){
+li.tab.light.odd{
 	background-color: #E9E9E9;
 }
-
+li.tab.filtered{
+	display: none;
+}
 li.tab:hover,li.tab.keyHover{
 	background-color:#B3B3B3;
 }
@@ -102,7 +104,6 @@ span.tabInfo{
 	position: absolute;
 	top:0px;
 	right: 11px;
-	border-bottom: 1px solid;
 }
 span.tabCount,span.tabWord{
 	font-style: italic;
