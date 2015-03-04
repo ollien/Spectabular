@@ -297,10 +297,15 @@ function removeChildren(element){
 	});
 }
 function search(query,mainList,callback){
-	Array.prototype.slice.call(mainList.childNodes).forEach(function(currentWindow){
-		var tabList = currentWindow.querySelector('ul.tabs');
+	Array.prototype.slice.call(mainList.childNodes).forEach(function(currentWindow,i){
+		var tabList = createTabList(mainList, i, true);
+		//This should never happen, but it's a just in case.
+		if (tabList.length===0){
+			return false;
+		}
+		var tabUl = tabList[0].parentNode;
 		var tabCount = 0;
-		Array.prototype.slice.call(tabList.childNodes).forEach(function(currentTab){
+		tabList.forEach(function(currentTab){
 			if (currentTab.textContent.toLowerCase().indexOf(query.toLowerCase())>-1 || new URL(currentTab.getAttribute("tabUrl")).hostname.indexOf(query)>-1){
 				currentTab.classList.remove('filtered');
 				tabCount+=1;
@@ -315,8 +320,8 @@ function search(query,mainList,callback){
 		else{
 			currentWindow.style.display="list-item";
 		}
-		stripeTabs(tabList);
-		setTabCount(tabList, tabCount);
+		stripeTabs(tabUl); //This will
+		setTabCount(tabUl, tabCount);
 	});
 	callback();
 }
