@@ -364,8 +364,7 @@ function setHeights(){
 	var noResults = document.getElementById("noResults");
 	var height = windows.offsetHeight+filterInput.offsetHeight;
 	var style = getComputedStyle(windows);
-	
-	if (noResults.style.display!=="none"){
+	if (noResults.style.display!=="none" && getComputedStyle(noResults).display!=="none"){
 		html.style.height = filterInput.getBoundingClientRect().bottom+"px";
 		body.style.height = filterInput.getBoundingClientRect().bottom+"px";
 	}
