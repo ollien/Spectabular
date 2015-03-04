@@ -325,8 +325,17 @@ function createWindowList(mainList){
 	return mainList.querySelectorAll('li.window');
 }
 
-function createTabList(mainList,windowKeyIndex){
-	return Array.prototype.slice.call(mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes);
+function createTabList(mainList,windowKeyIndex,includeFiltered){
+	var tabList = Array.prototype.slice.call(mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes);
+	if (includeFiltered){
+		return tabList;
+	}
+	else{
+		return tabList.filter(function(currentTab){
+			return !currentTab.classList.contains("filtered");
+		});
+	}
+	
 }
 function setHeights(){
 	var windows = document.getElementById("windows");
