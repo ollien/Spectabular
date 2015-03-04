@@ -116,6 +116,11 @@ function setupWindowElement(currentWindow,callback){
 function setupTabs(tabs,callback){
 	var tabElements = [];
 	tabs.forEach(function(currentTab){
+		//Workaround for null elements. not final.
+		if (currentTab===null){
+			console.log("[DEBUG] NULL ELEMENT WAS FOUND. SKIPPING OVER.");
+			return;
+		}
 		var li = document.createElement("li");
 		var textSpan = document.createElement("span");
 		var closeButton = document.createElement("i");
