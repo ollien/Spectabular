@@ -561,7 +561,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					filterInput.focus();
 				}
 			}
-			//If we're at the top of a tab list, highlight the tab itself.
+			//If we're at the top of a tab list, highlight the window itself.
 			else if (tabKeyIndex===0){
 				tabList[tabKeyIndex].classList.remove('keyHover');
 				windowList[windowKeyIndex].classList.add('keyHover');
@@ -582,8 +582,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			else if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
 				scrollTo(0, tabList[tabKeyIndex].getBoundingClientRect().bottom);
 			}
-			else if (tabKeyIndex===-1 && windowList[windowKeyIndex].getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
-				scrollTo(0, windowList[windowKeyIndex].getBoundingClientRect().bottom)
+			//If switching windows, scroll by the amount that the window is off the screen.
+			else if (tabKeyIndex===-1 && windowList[windowKeyIndex].getBoundingClientRect().top<=0){
+				scrollBy(0, windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().top);
 			}
 		}
 		//If enter is pressed, switch to the tab.
