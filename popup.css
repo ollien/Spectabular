@@ -96,9 +96,13 @@ li.window.light>span.textContent{
 	background-color: #AABBDD;
 	color: #F0F2F8;
 }
+!important
 li.window>span.textContent:hover,li.window.keyHover>span.textContent{
 	background-color:#B3B3B3;
 	color:#000;
+}
+li.window.filtered{
+	display: none;
 }
 span.tabInfo{
 	position: absolute;

@@ -322,10 +322,10 @@ function search(query,mainList,callback){
 			}
 		});
 		if (tabCount===0){
-			currentWindow.style.display="none";
+			currentWindow.classList.add('filtered');
 		}
 		else{
-			currentWindow.style.display="list-item";
+			currentWindow.classList.remove('filtered');
 			itemFound = true;
 		}
 		stripeTabs(tabUl); //This will
@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					tabKeyIndex=-1;
 					windowKeyIndex+=1;
 					windowList[windowKeyIndex].classList.add('keyHover');
-					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom>document.querySelector('body').clientHeight){
+					if (windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().b>document.querySelector('body').clientHeight){
 						var scrollAmount = windowList[windowKeyIndex].querySelector('span.textContent').getBoundingClientRect().bottom - document.querySelector('body').clientHeight/2;
 						scrollBy(0,scrollAmount>windowList[windowKeyIndex].querySelector('span.textContent').clientHeight ? scrollAmount : windowList[windowKeyIndex].querySelector('span.textContent').clientHeight);
 					}
