@@ -576,11 +576,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			//Scroll if the tab index passes the top border.
 			if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().top<=0){
-				scrollBy(0, tabList[tabKeyIndex].clientHeight*-1);
+				scrollBy(0, tabList[tabKeyIndex].getBoundingClientRect().top);
 			}
 			//If the user has scrolled off screen, but up is pressed, scroll to it.
 			else if (tabKeyIndex>=0 && tabList[tabKeyIndex].getBoundingClientRect().bottom>=document.querySelector('body').clientHeight){
-				scrollTo(0, tabList[tabKeyIndex].getBoundingClientRect().bottom);
+				//Get the amount less than the height that the element is
+				var scrollAmount = tabList[tabKeyIndex].getBoundingClientRect().bottom - document.querySelector('body').clientHeight;
+				//Scroll by either the height or scrollAmount, whichever is greater.
+				scrollBy(0,scrollAmount>tabList[tabKeyIndex].clientHeight ? scrollAmount : tabList[tabKeyIndex].clientHeight);
 			}
 			//If switching windows, scroll by the amount that the window is off the screen.
 			else if (tabKeyIndex===-1 && windowList[windowKeyIndex].getBoundingClientRect().top<=0){
