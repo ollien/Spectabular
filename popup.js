@@ -301,6 +301,9 @@ function removeChildren(element){
 	});
 }
 function search(query,mainList,callback){
+	var noResults = document.getElementById("noResults");
+	var itemFound = false; //If no items are found, this will be trie and noResults will be displayed
+	
 	Array.prototype.slice.call(mainList.childNodes).forEach(function(currentWindow,i){
 		var tabList = createTabList(mainList, i, true);
 		//This should never happen, but it's a just in case.
@@ -323,10 +326,17 @@ function search(query,mainList,callback){
 		}
 		else{
 			currentWindow.style.display="list-item";
+			itemFound = true;
 		}
 		stripeTabs(tabUl); //This will
 		setTabCount(tabUl, tabCount);
 	});
+	if(!itemFound){
+		noResults.style.display = "block";
+	}
+	else{
+		noResults.style.display = "none";
+	}
 	callback();
 }
 
@@ -352,14 +362,14 @@ function setHeights(){
 	var html = document.querySelector("html");
 	var filterInput = document.getElementById("search");
 	var noResults = document.getElementById("noResults");
-	if (windows.childNodes.length===0){
-		noResults.style.display="block";
+	var height = windows.offsetHeight+filterInput.offsetHeight;
+	var style = getComputedStyle(windows);
+	
+	if (noResults.style.display!=="none"){
 		html.style.height = filterInput.getBoundingClientRect().bottom+"px";
 		body.style.height = filterInput.getBoundingClientRect().bottom+"px";
 	}
 	else{
-		var height = windows.offsetHeight+filterInput.offsetHeight;
-		var style = getComputedStyle(windows);
 		if (style.marginTop.length>0){
 			height+=parseInt(style.marginTop);
 		}
@@ -372,7 +382,6 @@ function setHeights(){
 		height+="px";
 		html.style.height = height;
 		body.style.height = height;
-		noResults.style.display="none";
 	}
 }
 document.addEventListener('DOMContentLoaded', function() {
