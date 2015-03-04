@@ -47,7 +47,6 @@ function setupWindows(windowList,windows,callback){
 			setupWindowElement(currentWindow, function(windowLi){
 				setupTabs(currentWindow.tabs, function(tabElements){
 					var tabsUl = windowLi.querySelector('ul.tabs');
-					console.log(tabsUl);
 					tabElements.forEach(function(currentTab){
 						tabsUl.appendChild(currentTab);
 					});
