@@ -134,6 +134,10 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,resultingTab){
 	var tab = findTabById(resultingTab.windowId, tabId);
 	// tab.window.tabs[tab.index] = resultingTab; //Old method that worked, but was weird on some pages such a gist
 	chrome.tabs.get(tabId,function(currentTab){
+		if (currentTab.tabs===null){
+			console.log("[DEBUG] FOUND A NULL ELEMENT.");
+			console.log(tab.window.tabs);
+		}
 		tab.window.tabs[tab.index] = currentTab;
 		saveWindows();
 		if (tab.window.tabs.indexOf(null)>-1){
@@ -147,9 +151,13 @@ chrome.tabs.onMoved.addListener(function(tabId,objects){
 	var windowId = objects.windowId;
 	var startPos = objects.fromIndex;
 	var endPos = objects.toIndex;
-	var tab = findTabById(windowId, tabId);
+	var tab = findTabById(windowId,tabId);
 	tab.window.tabs.splice(startPos,1);
 	tab.window.tabs.splice(endPos,0,tab.tab);
+	if (tab.window.tabs.indexOf(null)>-1){
+		console.log("[DEBUG] FOUND A NULL ELEMENT.");
+		console.log(tab.window.tabs);
+	}
 	saveWindows();
 });
 
