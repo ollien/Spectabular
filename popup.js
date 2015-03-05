@@ -641,10 +641,11 @@ document.addEventListener('DOMContentLoaded', function() {
 						//Remove the list from the popup
 						//If we're at the front of the list, we move to the window below it.
 						if (windowKeyIndex===0){
+							tabList = createTabList(mainList, windowKeyIndex);
 							tabKeyIndex=0;
 						}
 						//Otherwise, we move up one.
-						if (windowKeyIndex>0){
+						else{
 							windowKeyIndex-=1;
 							tabList = createTabList(mainList, windowKeyIndex);
 							tabKeyIndex=tabList.length-1;
