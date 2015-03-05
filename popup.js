@@ -630,6 +630,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 				else{
 					tabList[tabKeyIndex].querySelector('i.close').click();
+					tabList.splice(tabKeyIndex, 1);
 					//Move the selection after pressing c.
 					//Check to make sure we're not leaving the bounds of the list
 					if (tabKeyIndex-1>0){
@@ -640,7 +641,6 @@ document.addEventListener('DOMContentLoaded', function() {
 						//Remove the list from the popup
 						//If we're at the front of the list, we move to the window below it.
 						if (windowKeyIndex===0){
-							tabList = createTabList(mainList, windowKeyIndex);
 							tabKeyIndex=0;
 						}
 						//Otherwise, we move up one.
