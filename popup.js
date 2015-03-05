@@ -163,13 +163,26 @@ function setupTabs(tabs,callback){
 		closeButton.addEventListener('click',function(event){
 			event.preventDefault();
 			event.stopPropagation();
-			chrome.tabs.remove(currentTab.id);
-			decrementTabCount(li.parentNode);
-			if (li.parentNode.childNodes.length===1){ //If it's one this means we're removing the window.
-				li.parentNode.parentNode.parentNode.removeChild(li.parentNode.parentNode);
+			if (shiftDown){
+				var tabList = Array.prototype.slice.call(li.parentNode.childNodes);
+				tabList.forEach(function(windowTab){
+					var tabId = parseInt(windowTab.getAttribute("tabId"));
+					if (tabId!==currentTab.id){
+						chrome.tabs.remove(tabId);
+						windowTab.parentNode.removeChild(windowTab);
+					}
+				});
+				setTabCount(li.parentNode, 1);
 			}
 			else{
-				li.parentNode.removeChild(li);
+				chrome.tabs.remove(currentTab.id);
+				decrementTabCount(li.parentNode);
+				if (li.parentNode.childNodes.length===1){ //If it's one this means we're removing the window.
+					li.parentNode.parentNode.parentNode.removeChild(li.parentNode.parentNode);
+				}
+				else{
+					li.parentNode.removeChild(li);
+				}
 			}
 			setHeights();
 		});
