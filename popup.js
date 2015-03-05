@@ -352,8 +352,10 @@ function createWindowList(mainList,includeFiltered){
 	}
 }
 
-function createTabList(mainList,windowKeyIndex,includeFiltered){
-	var windowList = createWindowList(mainList, includeFiltered);
+function createTabList(mainList,windowKeyIndex,includeFiltered,windowList){
+	if (windowList===undefined){
+		var windowList = createWindowList(mainList, includeFiltered);
+	}
 	var tabList = Array.prototype.slice.call(windowList[windowKeyIndex].querySelector('ul.tabs').childNodes);
 	if (includeFiltered){
 		return tabList;
@@ -613,8 +615,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		else if (event.keyCode===67){
 			if (tabKeyIndex>=0){
 				if (shiftDown){
+					console.log("shift is down");
+					var closeTabList = createTabList(mainList, windowKeyIndex, true, windowList);
 					var selectedTab = tabList[tabKeyIndex];
-					tabList.forEach(function(tab){
+					console.log(closeTabList);
+					closeTabList.forEach(function(tab){
 						if (tab!==selectedTab){
 							tab.querySelector('i.close').click();
 						}
