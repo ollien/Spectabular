@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (!mainList.classList.contains('searching')){
 			var startPos = object.fromIndex;
 			var endPos = object.toIndex;
-			var pinnedTab = unmovedPins.filter(function(tab){
+				var pinnedTab = unmovedPins.filter(function(tab){
 				return parseInt(tab.getAttribute('tabId'))===tabId;
 			});
 
@@ -703,7 +703,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.preventDefault();
 			if (tabKeyIndex===-1){
 				var windowList = createWindowList(mainList);
-				windowList[windowKeyIndex].querySelector('span.textContent > span.windowName').dispatchEvent(new MouseEvent('dblclick',{
+				windowList[windowKeyIndex].querySelector('span.windowName').dispatchEvent(new MouseEvent('dblclick',{
 					'view':window,
 					'bubbles':true,
 					'cancellable':true
