@@ -1,3 +1,4 @@
+var shiftDown = false; //Tracks if shift is held down
 var unmovedPins = []; //Stores pinned tabs that haven't been within the popup
 var pinnedTabs = []; //Stores pinned tabs that have been moved within the popup
 var darkMode = true;
@@ -399,7 +400,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	var filterInput = document.getElementById("search");
 	var windowKeyIndex = -1; //-1 indicdatesnothing is selected. ANything above that indicates that a window is selected
 	var tabKeyIndex = -2; //-2 indicates nothing is selected. -1 indicates the window is selected. Anything above that indicates that a tab is selected.
-	var shiftDown = false;
 	getOptions(function(data){
 		darkMode = data.options.darkMode;
 		getWindows(mainList,setHeights);
