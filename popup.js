@@ -624,6 +624,7 @@ document.addEventListener('DOMContentLoaded', function() {
 							tab.querySelector('i.close').click();
 						}
 					});
+					setTabCount(selectedTab.parentNode, 1);
 					tabKeyIndex = 0;
 				}
 				else{
