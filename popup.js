@@ -70,6 +70,7 @@ function setupWindowElement(currentWindow,callback){
 	var tabInfo = document.createElement("span");
 	var tabCount = document.createElement("span");
 	var tabWord = document.createElement("span");
+	var clickCount = 0;
 	li.classList.add("window");
 	li.classList.add("noselect");
 	ul.classList.add("tabs");
@@ -86,6 +87,33 @@ function setupWindowElement(currentWindow,callback){
 	tabCount.textContent = currentWindow.tabs.length.toString();
 	tabWord.classList.add("tabWord");
 	tabWord.textContent = (currentWindow.tabs.length>1 ? " tabs":" tab");
+	textContent.addEventListener('click',function(event){
+		if (event.clientX>windowName.getBoundingClientRect().left && event.clientX<windowName.getBoundingClientRect().right){
+			windowName.click();
+		}
+		else{
+			chrome.windows.update(currentWindow.id, {'focused':true});
+		}
+	});
+	textContent.addEventListener('dblclick',function(event){
+		if (event.clientX>windowName.getBoundingClientRect().left && event.clientX<windowName.getBoundingClientRect().right){
+			windowName.dispatchEvent(new MouseEvent('dblclick',{
+				'view':window,
+				'bubbles':true,
+				'cancellable':true
+			}));
+		}
+	});
+	windowName.addEventListener('click', function(event){
+		event.stopPropagation();
+		clickCount+=1;
+		setTimeout(function(){
+			if (clickCount===1){
+				textContent.click();
+			}
+			clickCount = 0;
+		}, 300);
+	});
 	windowName.addEventListener('dblclick', function(event){
 		var input = document.createElement('input');
 		input.setAttribute('value',windowName.textContent);
