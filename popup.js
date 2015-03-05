@@ -557,7 +557,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 				//If it's the first window, highlight the search bar
 				else{
-					tabKeyIndex=-1;
+					windowKeyIndex = -1;
+					tabKeyIndex = -2;
 					filterInput.focus();
 				}
 			}
