@@ -340,12 +340,21 @@ function search(query,mainList,callback){
 	callback();
 }
 
-function createWindowList(mainList){
-	return mainList.querySelectorAll('li.window');
+function createWindowList(mainList,includeFiltered){
+	var windowList = Array.prototype.slice.call(mainList.querySelectorAll('li.window'));
+	if (includeFiltered){
+		return windowList;
+	}
+	else{
+		return windowList.filter(function(currentWindow){
+			return !currentWindow.classList.contains("filtered");
+		});
+	}
 }
 
 function createTabList(mainList,windowKeyIndex,includeFiltered){
-	var tabList = Array.prototype.slice.call(mainList.querySelectorAll('li.window')[windowKeyIndex].querySelector('ul.tabs').childNodes);
+	var windowList = createWindowList(mainList, includeFiltered);
+	var tabList = Array.prototype.slice.call(windowList[windowKeyIndex].querySelector('ul.tabs').childNodes);
 	if (includeFiltered){
 		return tabList;
 	}
