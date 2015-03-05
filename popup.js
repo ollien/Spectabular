@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						tabKeyIndex-=1;
 					}
 					//If we're closing a window with only one tab left, move to the previous list.
-					if (tabList.length===0){
+					if (tabList.length===1){
 						//Remove the list from the popup
 						//If we're at the front of the list, we move to the window below it.
 						if (windowKeyIndex===0){
