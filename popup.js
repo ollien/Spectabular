@@ -648,6 +648,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (tabKeyIndex>=0){
 				tabList[tabKeyIndex].click();
 			}
+			else if (tabKeyIndex==-1){
+				windowList[windowKeyIndex].querySelector('span.textContent').click();
+			}
 			else if (mainList.classList.contains('searching') && tabKeyIndex===-2){
 				createTabList(mainList, 0)[0].click();
 			}
