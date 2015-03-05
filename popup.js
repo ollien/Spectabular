@@ -680,4 +680,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			shiftDown = false;
 		}
 	});
+	
+	filterInput.addEventListener('focus', function(event){
+		windowKeyIndex = -1;
+		tabKeyIndex = -2;
+	});
 });	
