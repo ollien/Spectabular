@@ -682,6 +682,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	
 	filterInput.addEventListener('focus', function(event){
+		var windowList = createWindowList(mainList);
+		windowList.forEach(function(currentWindow,i){
+			currentWindow.classList.remove('keyHover');
+			var tabList = createTabList(mainList, i);
+			tabList.forEach(function(currentTab){
+				currentTab.classList.remove('keyHover');
+			});
+			
+		});
 		windowKeyIndex = -1;
 		tabKeyIndex = -2;
 	});
