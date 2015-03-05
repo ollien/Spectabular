@@ -446,6 +446,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		getWindows(mainList,setHeights);
 	});
 	filterInput.addEventListener('input', function(event){
+		if (filterInput.value.length>0){
+			mainList.classList.add("searching");
+		}
+		else{
+			mainList.classList.remove("searching");
+		}
 		search(filterInput.value,mainList,setHeights);
 	});
 	//Workaround to prevent letters from triggering events.
@@ -651,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			else if (tabKeyIndex==-1){
 				windowList[windowKeyIndex].querySelector('span.textContent').click();
 			}
-			else if (mainList.classList.contains('searching') && tabKeyIndex===-2){
+			else if (tabKeyIndex===-2 && mainList.classList.contains('searching')){
 				createTabList(mainList, 0)[0].click();
 			}
 		}
