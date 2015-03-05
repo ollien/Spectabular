@@ -614,16 +614,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		//Close when c is pressed
 		else if (event.keyCode===67){
 			if (tabKeyIndex>=0){
+				//If shift is down, close all except the selected window
 				if (shiftDown){
-					console.log("shift is down");
+					//Get all tabs in the current window
 					var closeTabList = createTabList(mainList, windowKeyIndex, true, windowList);
 					var selectedTab = tabList[tabKeyIndex];
-					console.log(closeTabList);
 					closeTabList.forEach(function(tab){
 						if (tab!==selectedTab){
 							tab.querySelector('i.close').click();
 						}
 					});
+					//Set the tab count to 1 to prevent negative numbers
 					setTabCount(selectedTab.parentNode, 1);
 					tabKeyIndex = 0;
 				}
