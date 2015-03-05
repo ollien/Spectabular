@@ -450,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	//Workaround to prevent letters from triggering events.
 	filterInput.addEventListener('keydown', function(event){
-		if (event.keyCode!=40 && event.keyCode!=38 && event.keyCode!=13 && event.keyCode!=33 && event.keyCode!=34){
+		if (event.keyCode!==40 && event.keyCode!==38 && event.keyCode!==13 && event.keyCode!==33 && event.keyCode!==34){
 			event.stopPropagation();
 		}
 		if (event.keyCode===16){
@@ -709,7 +709,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					'cancellable':true
 				}));
 			}
-		}		
+		}
+				
 	});
 	
 	
