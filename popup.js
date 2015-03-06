@@ -253,6 +253,11 @@ function setupTabs(tabs,callback){
 				pinButton.click();
 				return;
 			}
+			//If the mouse is clicked iwthin the bounds of the detachButton, simulate a click event and return.
+			if (event.pageX>=detachButton.getBoundingClientRect().left && event.pageX<=detachButton.getBoundingClientRect().right){
+				detachButton.click();
+				return;
+			}
 			chrome.windows.getCurrent(function(resultWindow){
 				if (currentTab.id!=resultWindow.id){
 					chrome.windows.update(currentTab.windowId,{'focused':true});
@@ -276,6 +281,13 @@ function setupTabs(tabs,callback){
 			else{
 				pinButton.classList.remove('fakeHover');
 			}
+			//If the mouse is within the bounds of the detachButton, highlight it as if it's being hovered.
+			if (event.clientX>=detachButton.getBoundingClientRect().left && event.clientX<=detachButton.getBoundingClientRect().right){
+				detachButton.classList.add('fakeHover');
+			}
+			else{
+				detachButton.classList.remove('fakeHover');
+			}
 
 		}
 		
@@ -284,6 +296,7 @@ function setupTabs(tabs,callback){
 		li.addEventListener('mouseout', function(event){
 			closeButton.classList.remove('fakeHover');
 			pinButton.classList.remove('fakeHover');
+			detachButton.classList.remove('fakeHover');
 		});
 		li.appendChild(textSpan);
 		textSpan.appendChild(pinButton);
