@@ -153,6 +153,7 @@ function setupTabs(tabs,callback){
 		var textSpan = document.createElement("span");
 		var closeButton = document.createElement("i");
 		var pinButton = document.createElement("i");
+		var detachButton = document.createElement("i");
 		li.setAttribute('tabId', currentTab.id);
 		closeButton.classList.add("fa");
 		closeButton.classList.add("fa-remove");
@@ -163,7 +164,13 @@ function setupTabs(tabs,callback){
 		pinButton.classList.add("fa-thumb-tack");
 		pinButton.classList.add("pin");
 		pinButton.classList.add("noselect");
-		closeButton.classList.add("pointer");
+		pinButton.classList.add("pointer");
+		detachButton.classList.add("fa");
+		detachButton.classList.add("fa-external-link-square");
+		detachButton.classList.add("detach");
+		detachButton.classList.add("noselect");
+		detachButton.classList.add("pointer");
+		
 		if (currentTab.pinned){
 			pinButton.classList.add("pinned");
 			pinnedTabs.push(li);
@@ -276,6 +283,7 @@ function setupTabs(tabs,callback){
 		});
 		li.appendChild(textSpan);
 		textSpan.appendChild(pinButton);
+		textSpan.appendChild(detachButton);
 		textSpan.appendChild(closeButton);
 		tabElements.push(li);
 	});

@@ -49,7 +49,7 @@ li.tab > span.tabName{
 	overflow-x: hidden;
 	white-space: nowrap;
 	padding-left:45px;
-	padding-right: 23px;
+	padding-right: 43px;
 	max-width: 100%;
 	box-sizing: border-box;
 	position: relative;
@@ -138,13 +138,23 @@ i.pin{
 	color:#3F3F3F;
 }
 i.pin.pinned{
-	color:#1565C0;
+	color:#3484DD;
 }
 i.pin:hover,i.pin.fakeHover{
-	color:#1565C0;
+	color:#3484DD;
 }
 i.pin.pinned:hover,i.pin.pinned.fakeHover{
 	color:#000;
+}
+i.detach{
+	position:absolute;
+	top:1px;
+	right: 27px;
+	font-size: 14px;
+	color:#3F3F3F;
+}
+i.detach:hover,i.detach.fakeHover{
+	color:#3484DD;
 }
 input#search{
 	font-family: FontAwesome;
