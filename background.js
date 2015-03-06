@@ -67,7 +67,7 @@ function findWindowById(windowId){
 		return {'window':w[0],'index':windows.indexOf(w[0])};
 	}
 	else if (w.length===0){ 
-		throw "Could not find window with id "+windowId;
+		throw "Could not find window with id "+windowId+" in window list. May be non-normal window such as a popup.";
 	}
 	else{
 		throw "Found more than one window with id "+windowId;
@@ -87,7 +87,7 @@ function findTabById(queryWindow,tabId){
 		return {'tab':t[0],'index':queryWindow.tabs.indexOf(t[0]),'window':queryWindow,'windowIndex':windowIndex};
 	}
 	else if (t.length===0){
-		throw "Could not find tab with id "+tabId+" in window with id "+queryWindow.id;
+		throw "Could not find tab with id "+tabId+" in window with id "+queryWindow.id+" in window list. May be non-normal window such as a popup.";;
 	}
 	else{
 		throw "Found more than one tab with id "+tabId+" in window with id "+queryWindow.id;
