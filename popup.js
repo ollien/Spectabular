@@ -236,6 +236,10 @@ function setupTabs(tabs,callback){
 			}
 		});
 		
+		detachButton.addEventListener('click', function(event) {
+			chrome.windows.create({"tabId":currentTab.id});
+		});
+		
 		//Switches to the tab clicked
 		li.addEventListener('click',function(event){
 			event.stopPropagation();
