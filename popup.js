@@ -741,6 +741,13 @@ document.addEventListener('DOMContentLoaded', function() {
 				}));
 			}
 		}
+		//Detach a tab into a window when D is pressed.
+		else if (event.keyCode===68){
+			event.preventDefault();
+			if (tabKeyIndex>=0){
+				tabList[tabKeyIndex].querySelector('i.detach').click();
+			}
+		}
 				
 	});
 	
