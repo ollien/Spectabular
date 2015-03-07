@@ -9,8 +9,25 @@ function createOptionsStorage(callback){
 		'darkMode':true,
 		'sync':true,
 	}};
-	chrome.storage.local.set(defaultSettings);
-	chrome.storage.sync.set(defaultSettings);
+	chrome.storage.sync.getBytesInUse(function(bytes){
+		if (bytes===0){
+			chrome.storage.sync.set(defaultSettings);
+			chrome.storage.local.set(defaultSettings);
+			
+		}
+		else{
+			chrome.storage.sync.get("options",function(data){
+				var data = data.options;
+				for (var setting in defaultSettings.options){
+					if (!(setting in data)){
+						data[setting] = defaultSettings.options[setting];		
+					}
+				}
+				chrome.storage.sync.set({"options":data});
+				chrome.storage.local.set({"options":data});
+			});
+		}
+	});
 }
 
 function getOptions(callback){
