@@ -169,9 +169,9 @@ function setupWindowElement(currentWindow,callback){
 		}	
 	}
 	
-	li.addEventListener('mousein', mouseListenerFunction);
-	li.addEventListener('mousemove', mouseListenerFunction);
-	li.addEventListener('mouseout', function(event){
+	textContent.addEventListener('mousein', mouseListenerFunction);
+	textContent.addEventListener('mousemove', mouseListenerFunction);
+	textContent.addEventListener('mouseout', function(event){
 		closeButton.classList.remove('fakeHover');
 	});
 	
