@@ -18,6 +18,7 @@ ul#windows{
 }
 li.window{
 	text-align: left;
+	position: relative;
 }
 ul.tabs{
 	text-align: left;
@@ -96,7 +97,7 @@ li.window.light>span.textContent{
 	background-color: #AABBDD;
 	color: #F0F2F8;
 }
-li.window>span.textContent:hover,li.window.keyHover>span.textContent{
+li.window>span.textContent:hover,li.window.keyHover>span.textContent,span.textContent:hover>i.windowClose{
 	background-color:#B3B3B3;
 	color:#000;
 }
@@ -106,7 +107,7 @@ li.window.filtered{
 span.tabInfo{
 	position: absolute;
 	top:0px;
-	right: 11px;
+	right: 27px;
 }
 span.tabCount,span.tabWord{
 	font-style: italic;
@@ -145,6 +146,16 @@ i.pin:hover,i.pin.fakeHover{
 }
 i.pin.pinned:hover,i.pin.pinned.fakeHover{
 	color:#000;
+}
+i.windowClose{
+	position: absolute;
+	top:8px;
+	right: 11px;
+	color:#E1E6F7;
+	font-size: 14px;
+}
+i.windowClose:hover,i.windowClose.fakeHover{
+	color:#E53935 !important;
 }
 i.detach{
 	position:absolute;

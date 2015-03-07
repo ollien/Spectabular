@@ -70,6 +70,7 @@ function setupWindowElement(currentWindow,callback){
 	var tabInfo = document.createElement("span");
 	var tabCount = document.createElement("span");
 	var tabWord = document.createElement("span");
+	var closeButton = document.createElement("i");
 	var clickCount = 0;
 	li.classList.add("window");
 	li.classList.add("noselect");
@@ -87,6 +88,11 @@ function setupWindowElement(currentWindow,callback){
 	tabCount.textContent = currentWindow.tabs.length.toString();
 	tabWord.classList.add("tabWord");
 	tabWord.textContent = (currentWindow.tabs.length>1 ? " tabs":" tab");
+	closeButton.classList.add("fa");
+	closeButton.classList.add("fa-remove");
+	closeButton.classList.add("windowClose");
+	closeButton.classList.add("noselect");
+	closeButton.classList.add("pointer");
 	textContent.addEventListener('click',function(event){
 		if (event.clientX>windowName.getBoundingClientRect().left && event.clientX<windowName.getBoundingClientRect().right){
 			windowName.click();
@@ -130,11 +136,31 @@ function setupWindowElement(currentWindow,callback){
 		input.focus();
 		input.select();
 	});
+	closeButton.addEventListener("click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		//When shift is held, close all windows but this one
+		if (shiftDown){
+			var windowList = Array.prototype.slice.call(li.parentNode.childNodes);	
+			windowList.forEach(function(windowItem){
+				var windowId = parseInt(windowItem.getAttribute("windowId"));
+				if (windowId!==currentWindow.id){
+					chrome.windows.remove(windowId,function(){
+						windowItem.parentNode.removeChild(windowItem);
+					});
+				}
+			});
+		}
+		else{
+			chrome.windows.remove(currentWindow.id);
+		}
+	});
 	tabInfo.appendChild(tabCount);
 	tabInfo.appendChild(tabWord);
 	overflowContainer.appendChild(windowName);
 	overflowContainer.appendChild(tabInfo);
 	textContent.appendChild(overflowContainer);
+	textContent.appendChild(closeButton);
 	li.appendChild(textContent);
 	li.appendChild(ul);
 	callback(li);
