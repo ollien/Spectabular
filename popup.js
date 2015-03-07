@@ -121,10 +121,9 @@ function setupWindowElement(currentWindow,callback){
 			event.stopPropagation();
 			if(event.keyCode===13){
 				event.preventDefault();
-				var windowId = parseInt(input.parentNode.parentNode.getAttribute('windowId'));
 				windowName.textContent = input.value;
 				input.parentNode.replaceChild(windowName,input);
-				changeWindowName(windowId, input.value);
+				changeWindowName(currentWindow.id, input.value);
 			}
 		});
 		windowName.parentNode.replaceChild(input,windowName);
