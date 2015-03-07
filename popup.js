@@ -228,8 +228,9 @@ function setupTabs(tabs,callback){
 				tabList.forEach(function(windowTab){
 					var tabId = parseInt(windowTab.getAttribute("tabId"));
 					if (tabId!==currentTab.id){
-						chrome.tabs.remove(tabId);
-						windowTab.parentNode.removeChild(windowTab);
+						chrome.tabs.remove(tabId,function(){
+							windowTab.parentNode.removeChild(windowTab);
+						});
 					}
 				});
 				setTabCount(li.parentNode, 1);
