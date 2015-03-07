@@ -13,7 +13,6 @@ function getOptions(callback){
 
 function saveOptions(callback){
 	chrome.storage.local.set({"options":options},function(){
-		console.log(options);
 		if (options.sync){
 			chrome.storage.sync.set({"options":options},callback);
 		}

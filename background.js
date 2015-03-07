@@ -5,14 +5,23 @@ function createWindowStorage(callback){
 }
 
 function createOptionsStorage(callback){
-	chrome.storage.local.set({"options":{
+	var defaultSettings = {"options":{
 		'darkMode':true,
 		'sync':true,
-	}});
+	}};
+	chrome.storage.local.set(defaultSettings);
+	chrome.storage.sync.set(defaultSettings);
 }
 
 function getOptions(callback){
-	chrome.storage.local.get("options",callback);
+	chrome.storage.local.get("options",function(items){
+		if (items.sync){
+			chrome.storage.sync.get("options",callback);
+		}
+		else{
+			callback(items);
+		}
+	});
 }
 
 function populateWindowStorage(callback){
