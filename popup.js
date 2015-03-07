@@ -155,6 +155,23 @@ function setupWindowElement(currentWindow,callback){
 			chrome.windows.remove(currentWindow.id);
 		}
 	});
+	
+	var mouseListenerFunction = function(event){
+		//If the mouse is within the bounds of the closeButton, highlight it as if it's being hovered.
+		if (event.clientX>=closeButton.getBoundingClientRect().left && event.clientX<=closeButton.getBoundingClientRect().right){
+			closeButton.classList.add('fakeHover');
+		}
+		else{
+			closeButton.classList.remove('fakeHover');
+		}	
+	}
+	
+	li.addEventListener('mousein', mouseListenerFunction);
+	li.addEventListener('mousemove', mouseListenerFunction);
+	li.addEventListener('mouseout', function(event){
+		closeButton.classList.remove('fakeHover');
+	});
+	
 	tabInfo.appendChild(tabCount);
 	tabInfo.appendChild(tabWord);
 	overflowContainer.appendChild(windowName);
