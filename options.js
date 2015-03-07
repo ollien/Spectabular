@@ -1,11 +1,26 @@
 var options;
 
 function getOptions(callback){
-	chrome.storage.local.get("options",callback);
+	chrome.storage.local.get("options",function(items){
+		if (items.sync){
+			chrome.storage.sync.get("options",callback);
+		}
+		else{
+			callback(items);
+		}
+	});
 }
 
 function saveOptions(callback){
-	chrome.storage.local.set({"options":options},callback);
+	chrome.storage.local.set({"options":options},function(){
+		console.log(options);
+		if (options.sync){
+			chrome.storage.sync.set({"options":options},callback);
+		}
+		else{
+			callback();
+		}
+	});
 }
 
 function setupOptionsView(optionsDiv){

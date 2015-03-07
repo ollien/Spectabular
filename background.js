@@ -7,6 +7,7 @@ function createWindowStorage(callback){
 function createOptionsStorage(callback){
 	chrome.storage.local.set({"options":{
 		'darkMode':true,
+		'sync':true,
 	}});
 }
 

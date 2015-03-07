@@ -1,3 +1,9 @@
 input[type='checkbox']{
 	margin-right: 5px;
 }
+label.optionLabel{
+	display: block;
+}
+label.optionLabel:not(:first-child){
+	margin-top: 10px;
+}
