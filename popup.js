@@ -93,6 +93,7 @@ function setupWindowElement(currentWindow,callback){
 	closeButton.classList.add("windowClose");
 	closeButton.classList.add("noselect");
 	closeButton.classList.add("pointer");
+	closeButton.setAttribute("title", "Close window");
 	textContent.addEventListener('click',function(event){
 		if (event.clientX>windowName.getBoundingClientRect().left && event.clientX<windowName.getBoundingClientRect().right){
 			windowName.click();
@@ -211,16 +212,19 @@ function setupTabs(tabs,callback){
 		closeButton.classList.add("close");
 		closeButton.classList.add("noselect");
 		closeButton.classList.add("pointer");
+		closeButton.setAttribute("title", "Close tab");
 		pinButton.classList.add("fa");
 		pinButton.classList.add("fa-thumb-tack");
 		pinButton.classList.add("pin");
 		pinButton.classList.add("noselect");
 		pinButton.classList.add("pointer");
+		pinButton.setAttribute("title", "Pin tab");
 		detachButton.classList.add("fa");
 		detachButton.classList.add("fa-external-link-square");
 		detachButton.classList.add("detach");
 		detachButton.classList.add("noselect");
 		detachButton.classList.add("pointer");
+		detachButton.setAttribute("title", "Detach tab into window");
 		
 		if (currentTab.pinned){
 			pinButton.classList.add("pinned");
