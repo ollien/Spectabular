@@ -779,6 +779,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 				tabList[tabKeyIndex].classList.add('keyHover');
 			}
+			else if (tabKeyIndex==-1){
+				console.log(windowList);
+				windowList[windowKeyIndex].querySelector('i.windowClose').click();
+				windowList.splice(windowKeyIndex, 1);
+				windowList[windowKeyIndex].classList.add('keyHover');
+			}
 		}
 		//Pin when p is pressed
 		else if(event.keyCode===80){
