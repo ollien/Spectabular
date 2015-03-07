@@ -97,7 +97,7 @@ li.window.light>span.textContent{
 	background-color: #AABBDD;
 	color: #F0F2F8;
 }
-li.window>span.textContent:hover,li.window.keyHover>span.textContent,span.textContent:hover>i.windowClose{
+li.window>span.textContent:hover,li.window.keyHover>span.textContent,span.textContent:hover>i.windowClose,li.window.keyHover>span.textContent>i.windowClose{
 	background-color:#B3B3B3;
 	color:#000;
 }
