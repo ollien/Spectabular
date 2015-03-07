@@ -1,9 +1,9 @@
 {
 	"name":"Spectabular",
-	"description":"Tree-based-tabs in chrome",
+	"description":"Your tabs, managed.",
 	"author":"ollien",
-	"version":"0.1",
-	"manifest_version":6,
+	"version":"0.5",
+	"manifest_version":2,
 	"icons":{
 		"16":"img/icon16.png",
 		"48":"img/icon48.png",
