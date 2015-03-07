@@ -125,7 +125,7 @@ function setupWindowElement(currentWindow,callback){
 		input.setAttribute('value',windowName.textContent);
 		input.addEventListener('keydown', function(event){
 			event.stopPropagation();
-			if(event.keyCode===13){
+			if(event.keyCode===13 && input.value.length>0){
 				event.preventDefault();
 				windowName.textContent = input.value;
 				input.parentNode.replaceChild(windowName,input);
