@@ -9,7 +9,7 @@ function getStorage(callback){
 
 function getOptions(callback){
 	chrome.storage.local.get("options",function(items){
-		if (items.sync){
+		if (items.options.sync){
 			chrome.storage.sync.get("options",callback);
 		}
 		else{
