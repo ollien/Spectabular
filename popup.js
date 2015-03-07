@@ -149,13 +149,19 @@ function setupWindowElement(currentWindow,callback){
 				var windowId = parseInt(windowItem.getAttribute("windowId"));
 				if (windowId!==currentWindow.id){
 					chrome.windows.remove(windowId,function(){
+						console.log(windowItem);
+						conosle.log(windowName.parentNode);
 						windowItem.parentNode.removeChild(windowItem);
+						setHeights();
 					});
 				}
 			});
 		}
 		else{
-			chrome.windows.remove(currentWindow.id);
+			chrome.windows.remove(currentWindow.id,function(){
+				li.parentNode.removeChild(li);
+				setHeights();
+			});
 		}
 	});
 	
