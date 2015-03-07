@@ -97,6 +97,9 @@ function setupWindowElement(currentWindow,callback){
 		if (event.clientX>windowName.getBoundingClientRect().left && event.clientX<windowName.getBoundingClientRect().right){
 			windowName.click();
 		}
+		else if (event.clientX>closeButton.getBoundingClientRect().left && event.clientX<closeButton.getBoundingClientRect().right){
+			closeButton.click();
+		}
 		else{
 			chrome.windows.update(currentWindow.id, {'focused':true});
 		}
