@@ -19,3 +19,6 @@ Features include:
     ⦿ Closing windows in bulk, by holding the shift key
     
     ⦿ Renaming windows, by double clicking their name
+
+
+![Screenshot](https://raw.githubusercontent.com/ollien/Spectabular/master/README_SCREENSHOT.png)
