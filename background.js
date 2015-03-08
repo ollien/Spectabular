@@ -17,7 +17,7 @@ function createOptionsStorage(callback){
 		}
 		else{
 			chrome.storage.sync.get("options",function(data){
-				var data = data.options;
+				data = data.options;
 				for (var setting in defaultSettings.options){
 					if (!(setting in data)){
 						data[setting] = defaultSettings.options[setting];		
@@ -161,7 +161,7 @@ chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,resultingTab){
 	var tab = findTabById(resultingTab.windowId, tabId);
 	// tab.window.tabs[tab.index] = resultingTab; //Old method that worked, but was weird on some pages such a gist
 	chrome.tabs.get(tabId,function(currentTab){
-		if (currentTab.tabs===null){
+		if (currentTabs===null){
 			console.log("[DEBUG] FOUND A NULL ELEMENT.");
 			console.log(tab.window.tabs);
 		}
