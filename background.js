@@ -62,7 +62,7 @@ function clearWindowStorage(callback){
 
 function saveWindows(callback){
 	windows.forEach(function(currentWindow){
-		if (currentWindow.tabs.indexOf(null)>-1){
+		if (currentWindow.tabs.indexOf(null)>-1 || currentWindow.tabs.indexOf(undefined)>-1){
 			console.log("[DEBUG] FOUND A NULL ELEMENT.");
 			console.log(new Error().stack);
 			console.log(currentWindow.tabs);
@@ -106,6 +106,9 @@ function findTabById(queryWindow,tabId){
 		var result = findWindowById(queryWindow);
 		var windowIndex = result.index;
 		queryWindow = result.window;
+	}
+	if (queryWindow.tabs.indexOf(null)>-1 || queryWindow.tabs.indexOf(undefined)>-1){
+		console.log("[DEBUG] FOUND A NULL ELEMENT! POSITION "+queryWindow.tabs.indexOf(undefined)+" "+queryWindow.tabs.indexOf(null));
 	}
 	var t = queryWindow.tabs.filter(function(currentTab){
 		return currentTab.id==tabId;
@@ -157,21 +160,10 @@ chrome.tabs.onCreated.addListener(function(currentTab){
 	
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,resultingTab){
-	var tab = findTabById(resultingTab.windowId, tabId);
-	// tab.window.tabs[tab.index] = resultingTab; //Old method that worked, but was weird on some pages such a gist
-	chrome.tabs.get(tabId,function(currentTab){
-		if (currentTab===null){
-			console.log("[DEBUG] FOUND A NULL ELEMENT.");
-			console.log(tab.window.tabs);
-		}
-		tab.window.tabs[tab.index] = currentTab;
-		saveWindows();
-		if (tab.window.tabs.indexOf(null)>-1){
-			console.log("[DEBUG] FOUND A NULL ELEMENT.");
-			console.log(tab.window.tabs);
-		}
-	});
+chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,currentTab){
+	var tab = findTabById(currentTab.windowId, tabId);
+	tab.window.tabs[tab.index] = currentTab;
+	saveWindows();
 });
 
 chrome.tabs.onMoved.addListener(function(tabId,objects){
@@ -232,11 +224,20 @@ chrome.tabs.onAttached.addListener(function(tabId,objects){
 	}
 });
 
-chrome.runtime.onMessage.addListener(function(response){
+chrome.runtime.onMessage.addListener(function(response,sender){
 	if (response.hasOwnProperty('nameChange')){
 		var currentWindow = findWindowById(response.nameChange.windowId);
 		currentWindow.window.name = response.nameChange.name;
 		saveWindows();
+	}
+	else if (response.hasOwnProperty('titleChange')){
+		if (sender.tab!==undefined){
+			var windowId = sender.tab.windowId;
+			var tabId = sender.tab.id;
+			var currentTab = findTabById(windowId, tabId);
+			windows[currentTab.windowIndex].tabs[currentTab.index].title = response.titleChange.newTitle;
+			saveWindows();
+		}
 	}
 });
 
